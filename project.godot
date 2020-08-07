@@ -8,14 +8,32 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node",
+"class": "MapGeneratorDataSet",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/Data/MapGeneratorDataSet.gd"
+}, {
+"base": "Node",
+"class": "MapGeneratorSettings",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/Data/MapGeneratorSettings.gd"
+}, {
+"base": "Node",
+"class": "RoomInfo",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/Data/RoomInfo.gd"
+} ]
 _global_script_class_icons={
-
+"MapGeneratorDataSet": "",
+"MapGeneratorSettings": "",
+"RoomInfo": ""
 }
 
 [application]
 
 config/name="crime"
+run/main_scene="res://Gameplay/Procedural/Sandbox.tscn"
 config/icon="res://icon.png"
 
 [autoload]
