@@ -4,3 +4,7 @@
 
 [node name="GameManager" type="Node"]
 script = ExtResource( 1 )
+
+[node name="ThePoliceTimer" type="Timer" parent="."]
+one_shot = true
+[connection signal="timeout" from="ThePoliceTimer" to="." method="_on_ThePoliceTimer_timeout"]
