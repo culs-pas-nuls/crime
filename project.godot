@@ -18,6 +18,10 @@ _global_script_class_icons={
 config/name="crime"
 config/icon="res://icon.png"
 
+[autoload]
+
+GM="*res://Game System/GameManager.tscn"
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
