@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Wall/BathroomWallMaterial.tres" type="Material" id=1]
+[ext_resource path="res://Assets/Wall/HallwayWallMaterial.tres" type="Material" id=2]
+[ext_resource path="res://Assets/Wall/wall.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://Assets/Wall/BedroomWallMaterial.tres" type="Material" id=4]
+
+[node name="WallLibrary" type="Node"]
+
+[node name="BathroomWall" type="MeshInstance" parent="."]
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 1 )
+
+[node name="HallwayWall" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="BedroomWall" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 4 )

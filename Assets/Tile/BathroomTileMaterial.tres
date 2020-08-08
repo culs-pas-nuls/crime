@@ -1,0 +1,13 @@
+[gd_resource type="SpatialMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Tile/Textures/TexturesCom_Tiles_Plain_512_albedo.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Tile/Textures/TexturesCom_Tiles_Plain_512_normal.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Tile/Textures/TexturesCom_Tiles_Plain_512_roughness.png" type="Texture" id=3]
+
+[resource]
+albedo_texture = ExtResource( 1 )
+roughness_texture = ExtResource( 3 )
+normal_enabled = true
+normal_scale = 4.0
+normal_texture = ExtResource( 2 )
+uv1_scale = Vector3( 0.4, 0.4, 0.4 )

@@ -10,6 +10,7 @@ var __tileData := {
 	RoomType.Default: [Color.black],
 }
 
+
 func _init() -> void:
 	for room_type in __tileData.keys():
 		var room_data = __tileData[room_type]
@@ -19,6 +20,8 @@ func _init() -> void:
 		material.albedo_color = color
 		tile.set_surface_material(0, material)
 		__tiles[room_type] = tile
+	__tiles[RoomType.Bathroom] = preload("res://Assets/Tile/TileLibrary.tscn").instance().get_node("BathroomTile")
+
 
 func placeAssets(origin: Node, map: Array) -> void:
 	for y in range(map.size()):
