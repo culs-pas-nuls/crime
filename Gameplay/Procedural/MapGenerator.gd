@@ -1,19 +1,56 @@
 extends Node
 
-var model_node: Node
-
 # Private
 
 var _settings: MapGeneratorSettings
 var _data_set: MapGeneratorDataSet
 var _rnd: RandomNumberGenerator
+var __debug_material_cache: Array
+var __debug_default_material: ShaderMaterial
+
+const __debug_enabled: bool = true
+const __debug_shader: Shader = preload("res://Gameplay/Procedural/Debug/MapGeneratorDebugShader.tres")
+const __debug_diffuse_color_param_name: String = "DiffuseColor"
+const __debug_color_list: Array = [
+	Color.red,
+	Color.blue,
+	Color.green,
+	Color.orange,
+	Color.yellow,
+	Color.violet,
+	Color.cyan,
+	Color.magenta,
+	Color.blueviolet,
+	Color.chocolate]
+	
+func get_data_set():
+	return _data_set
 
 func _ready() -> void:
 	_settings = MapGeneratorSettings.new()
 	_data_set = MapGeneratorDataSet.new()
 	_rnd = RandomNumberGenerator.new()
+	
+	if __debug_enabled:
+		__debug_load_default_material()
+		__debug_generate_material_cache()
+		
 	_rnd.randomize()
 	_generate()
+	
+func __debug_load_default_material():
+	__debug_default_material = ShaderMaterial.new()
+	__debug_default_material.shader = __debug_shader
+	__debug_default_material.set_shader_param(__debug_diffuse_color_param_name, Color.white)
+	
+func __debug_generate_material_cache():
+	for i in range(__debug_color_list.size()):
+		var material: ShaderMaterial
+		
+		material = ShaderMaterial.new()
+		material.shader = __debug_shader
+		material.set_shader_param(__debug_diffuse_color_param_name, __debug_color_list[i])
+		__debug_material_cache.push_back(material)
 
 func _generate() -> void:
 	var total_tiles: int
@@ -29,6 +66,7 @@ func _generate() -> void:
 	# How many rooms to generate?
 	room_generation_count = _rnd.randi_range(_settings.room_min_count, _settings.room_max_count + 1)
 
+	# Matrix initialization
 	_data_set.matrix = []
 	for y in range(_settings.grid_size.y):
 		_data_set.matrix.push_back([])
@@ -43,15 +81,20 @@ func _generate() -> void:
 		var can_add: bool
 		
 		room_info = RoomInfo.new()
-		# Random size
-		room_info.size = Vector2(
-			_rnd.randi_range(_settings.room_min_size, _settings.room_max_size),
-			_rnd.randi_range(_settings.room_min_size, _settings.room_max_size))
 			
 		can_add = false
 		retry_count = 0
 			
 		while retry_count < 10:
+			var is_inside: bool
+			
+			is_inside = false
+			
+			# New random size
+			room_info.size = Vector2(
+				_rnd.randi_range(_settings.room_min_size, _settings.room_max_size),
+				_rnd.randi_range(_settings.room_min_size, _settings.room_max_size))
+			
 			# New random position
 			room_info.position = Vector2(
 				_rnd.randi_range(0, _settings.grid_size.x - room_info.size.x - 1),
@@ -59,34 +102,35 @@ func _generate() -> void:
 			
 			# We are going to shrink the room if needed
 			for other_room_info in _data_set.rooms:
-				if room_info.get_left() > other_room_info.get_left() and room_info.get_left() < other_room_info.get_right():
-					if room_info.get_top() > other_room_info.get_top() and room_info.get_top() < other_room_info.get_bottom():
-						room_info.set_left(other_room_info.get_right())
-						room_info.set_top(other_room_info.get_bottom())
-					elif room_info.get_bottom() > other_room_info.get_top() and room_info.get_bottom() < other_room_info.get_bottom():
-						room_info.set_left(other_room_info.get_right())
-						room_info.set_bottom(other_room_info.get_top())
+				if 		room_info.get_left() < other_room_info.get_right() \
+				and 	room_info.get_right() > other_room_info.get_left() \
+				and 	room_info.get_top() < other_room_info.get_bottom() \
+				and 	room_info.get_bottom() > other_room_info.get_top():
 						
-				elif room_info.get_right() > other_room_info.get_left() and room_info.get_right() < other_room_info.get_right():
-					if room_info.get_top() > other_room_info.get_top() and room_info.get_top() < other_room_info.get_bottom():
-						room_info.set_right(other_room_info.get_left())
-						room_info.set_top(other_room_info.get_bottom())
-					elif room_info.get_bottom() > other_room_info.get_top() and room_info.get_bottom() < other_room_info.get_bottom():
-						room_info.set_right(other_room_info.get_left())
-						room_info.set_bottom(other_room_info.get_top())
+						if room_info.get_left() < other_room_info.get_left():
+							room_info.set_right(other_room_info.get_left())
+						elif room_info.get_right() > other_room_info.get_right():
+							room_info.set_left(other_room_info.get_right())
+						elif room_info.get_top() < other_room_info.get_top():
+							room_info.set_bottom(other_room_info.get_top())
+						elif room_info.get_bottom() > other_room_info.get_bottom():
+							room_info.set_top(other_room_info.get_bottom())
+						else:
+							is_inside = true
 			
-			# Shrink the room if it is outside the grid limits
-			if room_info.get_right() >= _settings.grid_size.x:
-				room_info.set_right(_settings.grid_size.x - 1)
+			if not is_inside:
+				# Shrink the room if it is outside the grid limits
+				if room_info.get_right() >= _settings.grid_size.x:
+					room_info.set_right(_settings.grid_size.x - 1)
+					
+				if room_info.get_bottom() >= _settings.grid_size.y:
+					room_info.set_bottom(_settings.grid_size.y - 1)
 				
-			if room_info.get_bottom() >= _settings.grid_size.y:
-				room_info.set_bottom(_settings.grid_size.y - 1)
-			
-			# We (probably) got a new room size, but is it still valid?
-			if room_info.size.x >= _settings.room_min_size and room_info.size.y >= _settings.room_min_size:
-				# Yes, congratulations, we have a new room!
-				can_add = true
-				break
+				# We (probably) got a new room size, but is it still valid?
+				if room_info.size.x >= _settings.room_min_size and room_info.size.y >= _settings.room_min_size:
+					# Yes, congratulations, we have a new room!
+					can_add = true
+					break
 			
 			# Nope, try again
 			retry_count += 1
@@ -191,7 +235,11 @@ func _generate() -> void:
 				tile_info.tile_type = TileType.Floor
 				tile_info.room_type = RoomType.Transition
 				_data_set.matrix[y][last_x_pos + offset] = tile_info
-
+	
+	if not __debug_enabled:
+		return
+		
+	# For debug purpose only
 	for y in range(_settings.grid_size.y):
 		for x in range(_settings.grid_size.x):
 			var cube: CSGBox
@@ -207,4 +255,10 @@ func _generate() -> void:
 				x * _settings.tile_size,
 				0,
 				y * _settings.tile_size)
+			
+			if _data_set.matrix[y][x].room_type != RoomType.Transition:
+				cube.material = __debug_material_cache[_data_set.matrix[y][x].room_id % __debug_material_cache.size()]
+			else:
+				cube.material = __debug_default_material
+				
 			add_child(cube)
