@@ -16,3 +16,5 @@ var room_max_size: int = 16
 var room_min_count: int = 8
 # Max room count
 var room_max_count: int = 16
+
+var hallway_width: int = 5
