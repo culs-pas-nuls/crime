@@ -141,6 +141,8 @@ func _generate() -> void:
 
 		_data_set.rooms.push_back(room_info)
 		
+		var room_type = RoomType.allowed_values[_rnd.randi_range(0, RoomType.allowed_values.size() - 1)]
+		
 		# The room is now projected into the matrix
 		for y in room_info.size.y:
 			for x in room_info.size.x:
@@ -157,7 +159,7 @@ func _generate() -> void:
 				tile_info = TileInfo.new()
 				tile_info.room_id = _data_set.rooms.size() - 1
 				tile_info.tile_type = TileType.Wall if is_wall else TileType.Floor
-				tile_info.room_type = RoomType.allowed_values[_rnd.randi_range(0, RoomType.allowed_values.size() - 1)]
+				tile_info.room_type = room_type
 				_data_set.matrix[room_info.position.y + y][room_info.position.x + x] = tile_info
 		
 	rooms_to_link_indices = range(_data_set.rooms.size())
@@ -225,6 +227,9 @@ func _generate() -> void:
 			
 			last_x_pos = x
 			
+			if x < 0 or x >= _settings.grid_size.x:
+				continue
+			
 			# Enlarge path
 			for offset in range(-hallway_offset_bound, hallway_offset_bound + 1):
 				var is_hallway_wall: bool
@@ -254,6 +259,9 @@ func _generate() -> void:
 		# Vertically then
 		for y in range(from_pos.y - extra, to_pos.y, direction):
 			var tile_info: TileInfo
+			
+			if y < 0 or y >= _settings.grid_size.y:
+					continue
 			
 			# Enlarge path
 			for offset in range(-hallway_offset_bound, hallway_offset_bound + 1):
@@ -299,10 +307,10 @@ func _generate() -> void:
 			for offset_x in range(-1, 2):
 				for offset_y in range(-1, 2):
 					# Don't take diagonals
-					if offset_x == offset_y \
-					or (offset_x == 1 and offset_y == -1) \
-					or (offset_x == -1 and offset_y == 1):
-						continue
+					#if offset_x == offset_y \
+					#or (offset_x == 1 and offset_y == -1) \
+					#or (offset_x == -1 and offset_y == 1):
+					#	continue
 					
 					# One of the neighbour is empty, the tile must be a wall
 					if _data_set.matrix[y + offset_y][x + offset_x] == null:
