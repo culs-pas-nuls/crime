@@ -1,0 +1,9 @@
+[gd_scene format=2]
+
+[node name="Target" type="Position3D" groups=[
+"patrol_points",
+]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.538865, -3.22278 )
+__meta__ = {
+"_editor_description_": "Target"
+}
