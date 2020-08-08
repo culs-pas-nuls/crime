@@ -1,5 +1,7 @@
 extends Node
 
+class_name MapGenerator
+
 # Private
 
 var _settings: MapGeneratorSettings
@@ -64,7 +66,7 @@ func _generate() -> void:
 	# Get the max tile count allowed with the defined grid size
 	max_tiles = _settings.grid_size.x * _settings.grid_size.y
 	# How many rooms to generate?
-	room_generation_count = _rnd.randi_range(_settings.room_min_count, _settings.room_max_count + 1)
+	room_generation_count = _rnd.randi_range(_settings.room_min_count, _settings.room_max_count)
 
 	# Matrix initialization
 	_data_set.matrix = []
@@ -75,7 +77,6 @@ func _generate() -> void:
 	
 	# Let's generate the mess!
 	for _i in range(room_generation_count):
-		
 		var room_info: RoomInfo
 		var retry_count: int
 		var can_add: bool
@@ -100,21 +101,21 @@ func _generate() -> void:
 				_rnd.randi_range(0, _settings.grid_size.x - room_info.size.x - 1),
 				_rnd.randi_range(0, _settings.grid_size.y - room_info.size.y - 1))
 			
-			# We are going to shrink the room if needed
+			# We are going to shrink the room if it overlaps another one
 			for other_room_info in _data_set.rooms:
-				if 		room_info.get_left() < other_room_info.get_right() \
-				and 	room_info.get_right() > other_room_info.get_left() \
-				and 	room_info.get_top() < other_room_info.get_bottom() \
-				and 	room_info.get_bottom() > other_room_info.get_top():
+				if 		room_info.get_left() <= other_room_info.get_right() \
+				and 	room_info.get_right() >= other_room_info.get_left() \
+				and 	room_info.get_top() <= other_room_info.get_bottom() \
+				and 	room_info.get_bottom() >= other_room_info.get_top():
 						
 						if room_info.get_left() < other_room_info.get_left():
-							room_info.set_right(other_room_info.get_left())
+							room_info.set_right(other_room_info.get_left() - 1)
 						elif room_info.get_right() > other_room_info.get_right():
-							room_info.set_left(other_room_info.get_right())
+							room_info.set_left(other_room_info.get_right() + 1)
 						elif room_info.get_top() < other_room_info.get_top():
-							room_info.set_bottom(other_room_info.get_top())
+							room_info.set_bottom(other_room_info.get_top() - 1)
 						elif room_info.get_bottom() > other_room_info.get_bottom():
-							room_info.set_top(other_room_info.get_bottom())
+							room_info.set_top(other_room_info.get_bottom() + 1)
 						else:
 							is_inside = true
 			
@@ -146,7 +147,7 @@ func _generate() -> void:
 		if total_tiles > max_tiles:
 			break
 
-		_data_set.rooms.push_front(room_info)
+		_data_set.rooms.push_back(room_info)
 		
 		# The room is now projected into the matrix
 		for y in room_info.size.y:
@@ -215,7 +216,7 @@ func _generate() -> void:
 				tile_info = TileInfo.new()
 				tile_info.room_id = -1
 				tile_info.tile_type = TileType.Floor
-				tile_info.room_type = RoomType.Transition
+				tile_info.room_type = RoomType.Hallway
 				_data_set.matrix[from_pos.y + offset][x] = tile_info
 			
 		# Vertically then
@@ -233,7 +234,7 @@ func _generate() -> void:
 				tile_info = TileInfo.new()
 				tile_info.room_id = -1
 				tile_info.tile_type = TileType.Floor
-				tile_info.room_type = RoomType.Transition
+				tile_info.room_type = RoomType.Hallway
 				_data_set.matrix[y][last_x_pos + offset] = tile_info
 	
 	if not __debug_enabled:
@@ -256,7 +257,7 @@ func _generate() -> void:
 				0,
 				y * _settings.tile_size)
 			
-			if _data_set.matrix[y][x].room_type != RoomType.Transition:
+			if _data_set.matrix[y][x].room_type != RoomType.Hallway:
 				cube.material = __debug_material_cache[_data_set.matrix[y][x].room_id % __debug_material_cache.size()]
 			else:
 				cube.material = __debug_default_material

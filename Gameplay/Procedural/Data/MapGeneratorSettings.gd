@@ -13,6 +13,6 @@ var room_min_size: int = 8
 var room_max_size: int = 16
 
 # Min room count
-var room_min_count: int = 4
+var room_min_count: int = 8
 # Max room count
-var room_max_count: int = 8
+var room_max_count: int = 16
