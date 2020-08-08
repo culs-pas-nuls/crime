@@ -4,6 +4,9 @@ class_name RoomInfo
 
 var size: Vector2
 var position: Vector2
+var is_linked: bool
+var is_partially_linked: bool
+var linked_neighbour_rooms: Array
 
 func get_left() -> int:
 	return position.x as int

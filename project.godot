@@ -23,11 +23,29 @@ _global_script_classes=[ {
 "class": "RoomInfo",
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/RoomInfo.gd"
+}, {
+"base": "Node",
+"class": "RoomType",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/Data/Enums/RoomType.gd"
+}, {
+"base": "Node",
+"class": "TileInfo",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/Data/TileInfo.gd"
+}, {
+"base": "Node",
+"class": "TileType",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/Data/Enums/TileType.gd"
 } ]
 _global_script_class_icons={
 "MapGeneratorDataSet": "",
 "MapGeneratorSettings": "",
-"RoomInfo": ""
+"RoomInfo": "",
+"RoomType": "",
+"TileInfo": "",
+"TileType": ""
 }
 
 [application]

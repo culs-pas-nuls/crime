@@ -5,7 +5,7 @@ class_name MapGeneratorSettings
 # A floor unit
 var tile_size: int = 1
 # Play field size
-var grid_size: Vector2 = Vector2(50, 25)
+var grid_size: Vector2 = Vector2(80, 40)
 
 # Min room size
 var room_min_size: int = 8
