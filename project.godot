@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "AnimationHandler",
+"language": "GDScript",
+"path": "res://Gameplay/Player/AnimationHandler.gd"
+}, {
 "base": "RigidBody",
 "class": "Player",
 "language": "GDScript",
@@ -20,6 +25,7 @@ _global_script_classes=[ {
 "path": "res://Gameplay/Player/RotationHelper.gd"
 } ]
 _global_script_class_icons={
+"AnimationHandler": "",
 "Player": "",
 "RotationHelper": ""
 }
