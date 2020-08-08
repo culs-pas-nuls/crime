@@ -16,7 +16,7 @@ func call_the_police():
 	$ThePoliceTimer.start(police_countdown)
 
 func game_over():
-	var _gamer_over_ui = load(gamer_over_ui_path).instance()
+	_gamer_over_ui = load(gamer_over_ui_path).instance()
 	get_tree().get_root().add_child(_gamer_over_ui)
 
 func _on_ThePoliceTimer_timeout():
