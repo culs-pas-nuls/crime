@@ -19,11 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Gameplay/Player/Player.gd"
 }, {
-"base": "Spatial",
-"class": "RotationHelper",
-"language": "GDScript",
-"path": "res://Gameplay/Player/RotationHelper.gd"
-}, {
 "base": "Node",
 "class": "RoomInfo",
 "language": "GDScript",
@@ -33,6 +28,11 @@ _global_script_classes=[ {
 "class": "RoomType",
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/Enums/RoomType.gd"
+}, {
+"base": "Spatial",
+"class": "RotationHelper",
+"language": "GDScript",
+"path": "res://Gameplay/Player/RotationHelper.gd"
 }, {
 "base": "Node",
 "class": "TileInfo",
@@ -47,9 +47,9 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AnimationHandler": "",
 "Player": "",
-"RotationHelper": ""
 "RoomInfo": "",
 "RoomType": "",
+"RotationHelper": "",
 "TileInfo": "",
 "TileType": ""
 }
