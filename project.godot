@@ -14,17 +14,22 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Gameplay/Player/AnimationHandler.gd"
 }, {
+"base": "Reference",
+"class": "MapAssetPlacer",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/MapGeneration/MapAssetPlacer.gd"
+}, {
 "base": "RigidBody",
 "class": "Player",
 "language": "GDScript",
 "path": "res://Gameplay/Player/Player.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "RoomInfo",
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/RoomInfo.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "RoomType",
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/Enums/RoomType.gd"
@@ -34,18 +39,19 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Gameplay/Player/RotationHelper.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "TileInfo",
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/TileInfo.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "TileType",
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/Enums/TileType.gd"
 } ]
 _global_script_class_icons={
 "AnimationHandler": "",
+"MapAssetPlacer": "",
 "Player": "",
 "RoomInfo": "",
 "RoomType": "",
@@ -57,6 +63,7 @@ _global_script_class_icons={
 [application]
 
 config/name="crime"
+run/main_scene="res://Levels/House/House.tscn"
 config/icon="res://icon.png"
 
 [autoload]

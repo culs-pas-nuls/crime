@@ -1,5 +1,3 @@
-extends Node
-
 class_name RoomInfo
 
 var size: Vector2
