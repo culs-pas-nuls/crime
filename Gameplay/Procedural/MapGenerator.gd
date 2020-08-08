@@ -1,5 +1,3 @@
-extends Node
-
 class_name MapGenerator
 
 # Private
@@ -10,8 +8,10 @@ var _rnd: RandomNumberGenerator
 var __debug_material_cache: Array
 var __debug_floor_material: ShaderMaterial
 var __debug_wall_material: ShaderMaterial
+var __debug_root_node: Node
 
-const __debug_enabled: bool = true
+# Constants
+
 const __debug_shader: Shader = preload("res://Gameplay/Procedural/Debug/MapGeneratorDebugShader.tres")
 const __debug_diffuse_color_param_name: String = "DiffuseColor"
 const __debug_color_list: Array = [
@@ -26,38 +26,24 @@ const __debug_color_list: Array = [
 	Color.blueviolet,
 	Color.chocolate]
 	
-func generateNewMap() -> MapGeneratorDataSet:
+func generateNewMap(debug_root_node: Node = null) -> Array:
 	_settings = MapGeneratorSettings.new()
 	_data_set = MapGeneratorDataSet.new()
 	_rnd = RandomNumberGenerator.new()
 	
-	if __debug_enabled:
+	__debug_root_node = debug_root_node
+	
+	if __debug_root_node != null:
 		__debug_load_materials()
 		__debug_generate_material_cache()
 		
 	_rnd.randomize()
 	_generate()
 	
-	return _data_set
+	if __debug_root_node != null:
+		__debug_render_map()
 	
-	
-func __debug_load_materials():
-	__debug_floor_material = ShaderMaterial.new()
-	__debug_floor_material.shader = __debug_shader
-	__debug_floor_material.set_shader_param(__debug_diffuse_color_param_name, Color.white)
-	
-	__debug_wall_material = ShaderMaterial.new()
-	__debug_wall_material.shader = __debug_shader
-	__debug_wall_material.set_shader_param(__debug_diffuse_color_param_name, Color.gray)
-	
-func __debug_generate_material_cache():
-	for i in range(__debug_color_list.size()):
-		var material: ShaderMaterial
-		
-		material = ShaderMaterial.new()
-		material.shader = __debug_shader
-		material.set_shader_param(__debug_diffuse_color_param_name, __debug_color_list[i])
-		__debug_material_cache.push_back(material)
+	return _data_set.matrix
 
 func _generate() -> void:
 	var total_tiles: int
@@ -122,6 +108,7 @@ func _generate() -> void:
 						elif room_info.get_bottom() > other_room_info.get_bottom():
 							room_info.set_top(other_room_info.get_bottom() + 1)
 						else:
+							# Special case of overlap: the room is inside another one
 							is_inside = true
 			
 			if not is_inside:
@@ -160,6 +147,7 @@ func _generate() -> void:
 				var tile_info: TileInfo
 				var is_wall: bool
 				
+				# If the tile is on the bound of the room, it's a wall
 				is_wall = \
 					   y == 0 \
 					or y == room_info.size.y - 1 \
@@ -169,7 +157,7 @@ func _generate() -> void:
 				tile_info = TileInfo.new()
 				tile_info.room_id = _data_set.rooms.size() - 1
 				tile_info.tile_type = TileType.Wall if is_wall else TileType.Floor
-				tile_info.room_type = RoomType.Default
+				tile_info.room_type = RoomType.allowed_values[_rnd.randi_range(0, RoomType.allowed_values.size() - 1)]
 				_data_set.matrix[room_info.position.y + y][room_info.position.x + x] = tile_info
 		
 	rooms_to_link_indices = range(_data_set.rooms.size())
@@ -207,7 +195,7 @@ func _generate() -> void:
 		from_room = _data_set.rooms[from_room_index]
 		to_room = _data_set.rooms[to_room_index]
 
-		# Select a random origin within the selected rooms
+		# Select a random origin within the selected rooms (without the walls)
 		from_pos = \
 			from_room.position + \
 			Vector2(1, 1) + \
@@ -223,8 +211,11 @@ func _generate() -> void:
 
 		# TODO: refactoring...
 		
+		# In which direction the hallway is going to expand
 		direction = 1 if to_pos.x > from_pos.x else -1
+		# Calculate the bound needed by the range used in the offset loop
 		hallway_offset_bound = (_settings.hallway_width / 2) as int
+		# Calculate the extra hallway tiles to generate to smoothen the curves
 		extra = hallway_offset_bound * direction
 		
 		# Let's join the rooms!
@@ -238,14 +229,17 @@ func _generate() -> void:
 			for offset in range(-hallway_offset_bound, hallway_offset_bound + 1):
 				var is_hallway_wall: bool
 				
+				# Check if the hallway is not outside the grid
 				if from_pos.y + offset < 0 or from_pos.y + offset >= _settings.grid_size.y:
 					continue
-					
+				
+				# Destroy walls that are on the path of the hallway
 				if _data_set.matrix[from_pos.y + offset][x] != null:
 					if _data_set.matrix[from_pos.y + offset][x].tile_type == TileType.Wall:
 						_data_set.matrix[from_pos.y + offset][x].tile_type = TileType.Floor
 					continue
-					
+				
+				# Is the tile the hallway wall?
 				is_hallway_wall = abs(offset) == hallway_offset_bound
 				
 				tile_info = TileInfo.new()
@@ -281,13 +275,16 @@ func _generate() -> void:
 				tile_info.room_type = RoomType.Hallway
 				_data_set.matrix[y][last_x_pos + offset] = tile_info
 	
+	# Extra pass to add the missing walls
 	for y in range(_settings.grid_size.y):
 		for x in range(_settings.grid_size.x):
 			var must_be_wall: bool
 			
+			# If the tile is null or is already a wall, skip...
 			if _data_set.matrix[y][x] == null or _data_set.matrix[y][x].tile_type == TileType.Wall:
 				continue
-				
+			
+			# It must be a wall if the tile is on the bounds of the grid
 			must_be_wall = \
 				x == 0 \
 				or y == 0 \
@@ -297,14 +294,17 @@ func _generate() -> void:
 			if must_be_wall:
 				_data_set.matrix[y][x].tile_type = TileType.Wall
 				continue
-				
+			
+			# Check the tile neighbours and look for "void" tiles
 			for offset_x in range(-1, 2):
 				for offset_y in range(-1, 2):
+					# Don't take diagonals
 					if offset_x == offset_y \
 					or (offset_x == 1 and offset_y == -1) \
 					or (offset_x == -1 and offset_y == 1):
 						continue
-						
+					
+					# One of the neighbour is empty, the tile must be a wall
 					if _data_set.matrix[y + offset_y][x + offset_x] == null:
 						must_be_wall = true
 						break
@@ -313,9 +313,7 @@ func _generate() -> void:
 				_data_set.matrix[y][x].tile_type = TileType.Wall
 				continue
 	
-	if not __debug_enabled:
-		return
-		
+func __debug_render_map():
 	# For debug purpose only
 	for y in range(_settings.grid_size.y):
 		for x in range(_settings.grid_size.x):
@@ -341,4 +339,22 @@ func _generate() -> void:
 				else:
 					cube.material = __debug_floor_material
 				
-			add_child(cube)
+			__debug_root_node.add_child(cube)
+
+func __debug_load_materials():
+	__debug_floor_material = ShaderMaterial.new()
+	__debug_floor_material.shader = __debug_shader
+	__debug_floor_material.set_shader_param(__debug_diffuse_color_param_name, Color.white)
+	
+	__debug_wall_material = ShaderMaterial.new()
+	__debug_wall_material.shader = __debug_shader
+	__debug_wall_material.set_shader_param(__debug_diffuse_color_param_name, Color.gray)
+	
+func __debug_generate_material_cache():
+	for i in range(__debug_color_list.size()):
+		var material: ShaderMaterial
+		
+		material = ShaderMaterial.new()
+		material.shader = __debug_shader
+		material.set_shader_param(__debug_diffuse_color_param_name, __debug_color_list[i])
+		__debug_material_cache.push_back(material)
