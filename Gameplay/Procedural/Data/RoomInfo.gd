@@ -16,12 +16,14 @@ func get_bottom() -> int:
 	return (position.y + size.y - 1) as int
 
 func set_left(value: int) -> void:
+	size.x = position.x - value + 1
 	position.x = value
 	
 func set_right(value: int) -> void:
 	size.x = value - position.x + 1
 	
 func set_top(value: int) -> void:
+	size.y = position.y - value + 1
 	position.y = value
 	
 func set_bottom(value: int) -> void:
