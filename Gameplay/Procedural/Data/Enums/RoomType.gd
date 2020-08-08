@@ -1,5 +1,3 @@
-extends Node
-
 class_name RoomType
 
 const Default: int = 0
