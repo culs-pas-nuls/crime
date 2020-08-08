@@ -77,6 +77,7 @@ func _process_movements(_delta : float):
 	animation_handler.progress_animation_stance(moving, sprinting)
 
 
+
 func _integrate_forces(body: PhysicsDirectBodyState) -> void:
 	body.linear_velocity = self.to_global(dir) - global_transform.origin
 

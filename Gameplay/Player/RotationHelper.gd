@@ -10,5 +10,6 @@ func _ready():
 	pass # Replace with function body.
 
 
+
 func set_orientation(new_orientation: Vector3):
 	look_at(global_transform.origin + new_orientation, ROTATION_AXIS)
