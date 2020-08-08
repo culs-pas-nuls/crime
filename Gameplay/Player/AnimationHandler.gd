@@ -16,48 +16,49 @@ var animator: AnimationPlayer = null
 
 
 func progress_animation_stance(moving: bool, sprinting: bool):
-    match stance:
-        STANCES.IDLE:
-            if moving:
-                stance = STANCES.WALK
-                if sprinting:
-                    stance = STANCES.SPRINT
+	match stance:
+		STANCES.IDLE:
+			if moving:
+				stance = STANCES.WALK
+				if sprinting:
+					stance = STANCES.SPRINT
 
-        STANCES.WALK:
-            if not moving:
-                stance = STANCES.IDLE
-            elif sprinting:
-                stance = STANCES.SPRINT
+		STANCES.WALK:
+			if not moving:
+				stance = STANCES.IDLE
+			elif sprinting:
+				stance = STANCES.SPRINT
 
-        STANCES.SPRINT:
-            if not moving:
-                stance = STANCES.IDLE
-            elif not sprinting:
-                stance = STANCES.WALK
+		STANCES.SPRINT:
+			if not moving:
+				stance = STANCES.IDLE
+			elif not sprinting:
+				stance = STANCES.WALK
 
-    if stance == old_stance: return
+	if stance == old_stance: return
 
-    old_stance = stance
-    var animation_name: String = ANIMATIONS[stance]
+	old_stance = stance
+	var animation_name: String = ANIMATIONS[stance]
 
-    match stance:
-        STANCES.IDLE:
-            animator.stop()
-            var animation := animator.get_animation(animation_name)
-            animation.loop = true
-            animator.play()
-            animator.play(animation_name, -1, IDLE_SPEED)
+	match stance:
+		STANCES.IDLE:
+			animator.stop()
+			var animation := animator.get_animation(animation_name)
+			animation.loop = true
+			animator.play()
+			animator.play(animation_name, -1, IDLE_SPEED)
 
-        STANCES.WALK:
-            _play_walk_animation(animation_name, WALK_SPEED)
+		STANCES.WALK:
+			_play_walk_animation(animation_name, WALK_SPEED)
 
-        STANCES.SPRINT:
-            _play_walk_animation(animation_name, SPRINT_SPEED)
+		STANCES.SPRINT:
+			_play_walk_animation(animation_name, SPRINT_SPEED)
+
 
 func _play_walk_animation(animation_name: String, speed: float = 1):
-    if animator.current_animation != animation_name:
-        animator.stop()
-        var animation := animator.get_animation(animation_name)
-        animation.loop = true
-    animator.playback_speed = speed
-    animator.play(animation_name, -1, speed)
+	if animator.current_animation != animation_name:
+		animator.stop()
+		var animation := animator.get_animation(animation_name)
+		animation.loop = true
+	animator.playback_speed = speed
+	animator.play(animation_name, -1, speed)
