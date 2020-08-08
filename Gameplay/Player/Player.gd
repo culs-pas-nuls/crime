@@ -5,53 +5,81 @@ class_name Player
 const WALK_SPEED: float = 7.0
 const SPRINT_MULT: float = 2.0
 
-var moving := false
-var sprinting := false
-
 var dir: Vector3 = Vector3()
+var sprinting := false
+var moving := false
+
+onready var animation_handler: AnimationHandler = $AnimationHandler
 onready var rotation_helper: Spatial = $RotationHelper
-onready var animation_handler = $AnimationHandler
+onready var raycast: RayCast = $RotationHelper/RayCast
+onready var inventory = $Inventory
+
 
 func _ready() -> void:
-    Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-    animation_handler.animator = get_node("RotationHelper/character/AnimationPlayer")
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	animation_handler.animator = get_node("RotationHelper/character/AnimationPlayer")
+	inventory.init(12)
+	inventory.hide()
+
 
 func _process(_delta: float):
-    if Input.is_action_pressed("ui_cancel"):
-        get_tree().quit()
+	if Input.is_action_pressed("ui_cancel"):
+		get_tree().quit()
+	_process_inventory(_delta)
+
 
 func _physics_process(delta : float):
-    process_movements(delta)
+	_process_movements(delta)
+	_process_interactions(delta)
 
-func process_movements(_delta : float):
-    var speed := WALK_SPEED
-    dir = Vector3(0, 0, 0)
-    sprinting = false
-    moving = false
 
-    if Input.is_action_pressed("player_move_left"):
-        dir.z -= 1
-    if Input.is_action_pressed("player_move_right"):
-        dir.z += 1
-    if Input.is_action_pressed("player_move_up"):
-        dir.x += 1
-    if Input.is_action_pressed("player_move_down"):
-        dir.x -= 1
+func _process_movements(_delta : float):
+	var speed := WALK_SPEED
+	dir = Vector3(0, 0, 0)
+	sprinting = false
+	moving = false
 
-    if Input.is_action_pressed("player_sprint"):
-        speed *= SPRINT_MULT
-        sprinting = true
+	if Input.is_action_pressed("player_move_left"):
+		dir.z -= 1
+	if Input.is_action_pressed("player_move_right"):
+		dir.z += 1
+	if Input.is_action_pressed("player_move_up"):
+		dir.x += 1
+	if Input.is_action_pressed("player_move_down"):
+		dir.x -= 1
 
-    if dir:
-        rotation_helper.set_orientation(dir)
-        # Waking up the physics when movement occurs
-        moving = true
-        sleeping = false
+	if Input.is_action_pressed("player_sprint"):
+		speed *= SPRINT_MULT
+		sprinting = true
 
-    dir = dir.normalized()
-    dir.z *= speed
-    dir.x *= speed
-    animation_handler.progress_animation_stance(moving, sprinting)
+	if dir:
+		rotation_helper.set_orientation(dir)
+		# Waking up the physics when movement occurs
+		moving = true
+		sleeping = false
+
+	dir = dir.normalized()
+	dir.z *= speed
+	dir.x *= speed
+	animation_handler.progress_animation_stance(moving, sprinting)
+
 
 func _integrate_forces(body: PhysicsDirectBodyState) -> void:
-    body.linear_velocity = self.to_global(dir) - global_transform.origin
+	body.linear_velocity = self.to_global(dir) - global_transform.origin
+
+
+func _process_interactions(_delta: float):
+	if Input.is_action_pressed("player_interact"):
+		raycast.enabled = true
+	else:
+		raycast.enabled = false
+
+	if raycast.is_colliding():
+		var collider = raycast.get_collider()
+
+func _process_inventory(_delta: float):
+	if Input.is_action_just_pressed("open_inventory"):
+		if inventory.visible:
+			inventory.hide()
+		else:
+			inventory.show()
