@@ -37,7 +37,7 @@ func add_item(new_item: Node) -> bool:
 
 
 func remove_item(inventory_item: Node) -> bool:
-	if not inventory or used_size == 0:
+	if not inventory or used_size == 0 or inventory_item.is_free():
 		return false
 
 	inventory_item.clear_item()

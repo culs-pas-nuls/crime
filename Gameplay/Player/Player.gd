@@ -8,34 +8,41 @@ const WALK_SPEED: float = 7.0
 const SPRINT_MULT: float = 2.0
 const DROP_FORCE: float = 8.0
 
-var can_pick := true
 var dir: Vector3 = Vector3()
 var sprinting := false
 var moving := false
 
 onready var animation_handler: AnimationHandler = $AnimationHandler
+onready var interact_progress: ProgressBar = $HUD/InteractProgress
 onready var rotation_helper: Spatial = $RotationHelper
 onready var raycast: RayCast = $RotationHelper/RayCast
-onready var inventory = $Inventory
+onready var interactions = $PlayerInteractions
+onready var inventory = $HUD/Inventory
 
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	animation_handler.animator = get_node("RotationHelper/character/AnimationPlayer")
+	__init_hud()
+
+
+func __init_hud():
 	inventory.init(6)
 	inventory.hide()
 	inventory.connect("on_InventoryItem_click", self, "_on_InventoryItem_click")
 
+	interact_progress.value = 0
+	interact_progress.hide()
 
 func _process(_delta: float):
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 	_process_inventory(_delta)
+	_process_interactions(_delta)
 
 
 func _physics_process(delta : float):
 	_process_movements(delta)
-	_process_interactions(delta)
 
 
 func _process_movements(_delta : float):
@@ -74,16 +81,20 @@ func _integrate_forces(body: PhysicsDirectBodyState) -> void:
 
 
 func _process_interactions(_delta: float):
-	if Input.is_action_just_pressed("player_pick_up"):
-		raycast.enabled = true
-
-	elif Input.is_action_just_released("player_pick_up"):
-		raycast.enabled = false
-		can_pick = true
-
-	if raycast.is_colliding() and can_pick:
-		can_pick = false
-		_pick_up_item(raycast.get_collider())
+	if Input.is_action_just_pressed("player_interact"):
+		if raycast.is_colliding():
+			_interact_with_item(raycast.get_collider())
+	elif Input.is_action_just_released("player_interact"):
+		_cancel_interaction()
+	elif Input.is_action_pressed("player_interact"):
+		if (not interactions.is_stopped()):
+			var remaining = interactions.time_left / interactions.wait_time
+			interact_progress.value = 1 - remaining
+		if (linear_velocity.length_squared() >= 1):
+			_cancel_interaction()
+	elif Input.is_action_just_pressed("player_pick_up"):
+		if raycast.is_colliding():
+			_pick_up_item(raycast.get_collider())
 
 
 func _process_inventory(_delta: float):
@@ -97,8 +108,8 @@ func _process_inventory(_delta: float):
 func _on_InventoryItem_click(inventory_item: InventoryItem):
 	var item = inventory_item.get_item()
 	var removed = inventory.remove_item(inventory_item)
-	if not removed: return
-
+	if not removed:
+		return
 	_drop_item(item)
 
 
@@ -117,3 +128,22 @@ func _pick_up_item(collider: Node):
 		var added = inventory.add_item(item)
 		if added:
 			collider.pick_up()
+
+
+func _interact_with_item(collider: Node):
+	if collider.has_method("get_interaction_length"):
+		var length: float = collider.get_interaction_length()
+		interactions.start_interaction(self, "_on_interaction_done", length, [collider])
+		interact_progress.value = 0
+		interact_progress.show()
+
+
+func _cancel_interaction():
+	interactions.cancel()
+	interact_progress.value = 0
+	interact_progress.hide()
+
+
+func _on_interaction_done(collider: Node):
+	_cancel_interaction()
+	collider.interact()
