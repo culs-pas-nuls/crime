@@ -25,7 +25,7 @@ func init(size: int):
 		item.connect("pressed", self, "_on_InventoryItem_click", [item])
 
 
-func add_item(new_item: Node) -> bool:
+func add_item(new_item: Reference) -> bool:
 	if not inventory or used_size >= INVENTORY_SIZE:
 		return false
 

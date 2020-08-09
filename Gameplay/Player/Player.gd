@@ -85,13 +85,13 @@ func _process_interactions(_delta: float):
 		if raycast.is_colliding():
 			_interact_with_item(raycast.get_collider())
 	elif Input.is_action_just_released("player_interact"):
-		_cancel_interaction()
+		_stop_interaction()
 	elif Input.is_action_pressed("player_interact"):
 		if (not interactions.is_stopped()):
 			var remaining = interactions.time_left / interactions.wait_time
 			interact_progress.value = 1 - remaining
 		if (linear_velocity.length_squared() >= 1):
-			_cancel_interaction()
+			_stop_interaction()
 	elif Input.is_action_just_pressed("player_pick_up"):
 		if raycast.is_colliding():
 			_pick_up_item(raycast.get_collider())
@@ -113,7 +113,7 @@ func _on_InventoryItem_click(inventory_item: InventoryItem):
 	_drop_item(item)
 
 
-func _drop_item(item: Node):
+func _drop_item(item: Reference):
 	var dropped_item: DroppedItem = DroppedItemScn.instance()
 	dropped_item.transform.origin = transform.origin
 	dropped_item.set_item(item)
@@ -125,8 +125,7 @@ func _drop_item(item: Node):
 func _pick_up_item(collider: Node):
 	if collider.has_method("pick_up"):
 		var item = collider.get_item()
-		var added = inventory.add_item(item)
-		if added:
+		if inventory.add_item(item):
 			collider.pick_up()
 
 
@@ -138,12 +137,14 @@ func _interact_with_item(collider: Node):
 		interact_progress.show()
 
 
-func _cancel_interaction():
+func _stop_interaction():
 	interactions.cancel()
 	interact_progress.value = 0
 	interact_progress.hide()
 
 
 func _on_interaction_done(collider: Node):
-	_cancel_interaction()
-	collider.interact()
+	_stop_interaction()
+	var item = collider.get_item()
+	if inventory.add_item(item):
+		collider.pick_up()
