@@ -4,5 +4,31 @@
 uniform_name = "DiffuseColor"
 
 [resource]
+code = "shader_type spatial;
+uniform vec4 DiffuseColor : hint_color;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// ColorUniform:2
+	vec3 n_out2p0 = DiffuseColor.rgb;
+	float n_out2p1 = DiffuseColor.a;
+
+// Output:0
+	ALBEDO = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
 nodes/fragment/2/node = SubResource( 1 )
 nodes/fragment/2/position = Vector2( 20, 120 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 2, 0, 0, 0 )

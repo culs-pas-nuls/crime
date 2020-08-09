@@ -26,7 +26,7 @@ const __debug_color_list: Array = [
 	Color.blueviolet,
 	Color.chocolate]
 	
-func generateNewMap(debug_root_node: Node = null) -> Array:
+func generate_new_map(var debug_root_node: Node = null) -> MapGeneratorDataSet:
 	_settings = MapGeneratorSettings.new()
 	_data_set = MapGeneratorDataSet.new()
 	_rnd = RandomNumberGenerator.new()
@@ -43,14 +43,12 @@ func generateNewMap(debug_root_node: Node = null) -> Array:
 	if __debug_root_node != null:
 		__debug_render_map()
 	
-	return _data_set.matrix
+	return _data_set
 
 func _generate() -> void:
 	var total_tiles: int
 	var max_tiles: int
 	var room_generation_count: int
-	var rooms_to_link_indices: Array
-	var linked_rooms_indices: Array
 	
 	# Will store the number of tiles used for generation
 	total_tiles = 0
@@ -71,6 +69,7 @@ func _generate() -> void:
 		var room_info: RoomInfo
 		var retry_count: int
 		var can_add: bool
+		var room_type: int
 		
 		room_info = RoomInfo.new()
 			
@@ -139,9 +138,9 @@ func _generate() -> void:
 		if total_tiles > max_tiles:
 			break
 
+		room_info.id = _data_set.rooms.size()
+		room_info.type = RoomType.allowed_values[_rnd.randi_range(0, RoomType.allowed_values.size() - 1)]
 		_data_set.rooms.push_back(room_info)
-		
-		var room_type = RoomType.allowed_values[_rnd.randi_range(0, RoomType.allowed_values.size() - 1)]
 		
 		# The room is now projected into the matrix
 		for y in room_info.size.y:
@@ -157,15 +156,29 @@ func _generate() -> void:
 					or x == room_info.size.x - 1
 
 				tile_info = TileInfo.new()
-				tile_info.room_id = _data_set.rooms.size() - 1
+				tile_info.room_id = room_info.id
 				tile_info.tile_type = TileType.Wall if is_wall else TileType.Floor
-				tile_info.room_type = room_type
+				tile_info.room_type = room_info.type
 				_data_set.matrix[room_info.position.y + y][room_info.position.x + x] = tile_info
-		
+				
+	# We create room connections	
+	_connect_rooms()
+	
+	# Add the missing walls
+	_add_missing_walls()
+	
+	# Make sure each room is opened
+	for room_info in _data_set.rooms:
+		_fix_and_validate_room(room_info)
+					
+
+func _connect_rooms() -> void:
+	var linked_rooms_indices: Array	
+	var rooms_to_link_indices: Array
+	
 	rooms_to_link_indices = range(_data_set.rooms.size())
 	linked_rooms_indices = []
 	
-	# We create room connections
 	while rooms_to_link_indices.size() > 0:
 		var from_room_index: int
 		var to_room_index: int
@@ -198,28 +211,40 @@ func _generate() -> void:
 		to_room = _data_set.rooms[to_room_index]
 
 		# Select a random origin within the selected rooms (without the walls)
-		from_pos = \
-			from_room.position + \
-			Vector2(1, 1) + \
-			Vector2(
-				_rnd.randi_range(0, from_room.size.x - 2),
-				_rnd.randi_range(0, from_room.size.y - 2))
-		to_pos = \
-			to_room.position + \
-			Vector2(1, 1) + \
-			Vector2(
-				_rnd.randi_range(0, to_room.size.x - 2),
-				_rnd.randi_range(0, to_room.size.y - 2))
+		
+		if false:
+			from_pos = \
+				from_room.position + \
+				Vector2(1, 1) + \
+				Vector2(
+					_rnd.randi_range(0, from_room.size.x - 2),
+					_rnd.randi_range(0, from_room.size.y - 2))
+			to_pos = \
+				to_room.position + \
+				Vector2(1, 1) + \
+				Vector2(
+					_rnd.randi_range(0, to_room.size.x - 2),
+					_rnd.randi_range(0, to_room.size.y - 2))
+		
+		from_pos = Vector2(
+			(from_room.get_left() + from_room.get_right()) / 2,
+			(from_room.get_top() + from_room.get_bottom()) / 2)
+			
+		to_pos = Vector2(
+			(to_room.get_left() + to_room.get_right()) / 2,
+			(to_room.get_top() + to_room.get_bottom()) / 2)
 
 		# TODO: refactoring...
 		
 		# In which direction the hallway is going to expand
 		direction = 1 if to_pos.x > from_pos.x else -1
-		# Calculate the bound needed by the range used in the offset loop
+		# Calculate the min / max range used by the offset loop
 		hallway_offset_bound = (_settings.hallway_width / 2) as int
 		# Calculate the extra hallway tiles to generate to smoothen the curves
 		extra = hallway_offset_bound * direction
-		
+
+		last_x_pos = from_pos.x
+
 		# Let's join the rooms!
 		# Horizontally first
 		for x in range(from_pos.x, to_pos.x + extra, direction):
@@ -240,8 +265,9 @@ func _generate() -> void:
 				
 				# Destroy walls that are on the path of the hallway
 				if _data_set.matrix[from_pos.y + offset][x] != null:
-					if _data_set.matrix[from_pos.y + offset][x].tile_type == TileType.Wall:
+					if  _can_hallway_destroy_wall(_data_set.matrix[from_pos.y + offset][x], offset):
 						_data_set.matrix[from_pos.y + offset][x].tile_type = TileType.Floor
+						
 					continue
 				
 				# Is the tile the hallway wall?
@@ -271,8 +297,9 @@ func _generate() -> void:
 					continue
 					
 				if _data_set.matrix[y][last_x_pos + offset] != null:
-					if _data_set.matrix[y][last_x_pos + offset].tile_type == TileType.Wall:
+					if  _can_hallway_destroy_wall(_data_set.matrix[y][last_x_pos + offset], offset):
 						_data_set.matrix[y][last_x_pos + offset].tile_type = TileType.Floor
+
 					continue
 					
 				is_hallway_wall = abs(offset) == hallway_offset_bound
@@ -282,8 +309,8 @@ func _generate() -> void:
 				tile_info.tile_type = TileType.Wall if is_hallway_wall else TileType.Floor
 				tile_info.room_type = RoomType.Hallway
 				_data_set.matrix[y][last_x_pos + offset] = tile_info
-	
-	# Extra pass to add the missing walls
+
+func _add_missing_walls() -> void:
 	for y in range(_settings.grid_size.y):
 		for x in range(_settings.grid_size.x):
 			var must_be_wall: bool
@@ -304,9 +331,9 @@ func _generate() -> void:
 				continue
 			
 			# Check the tile neighbours and look for "void" tiles
-			for offset_x in range(-1, 2):
-				for offset_y in range(-1, 2):
-					# Don't take diagonals
+			for offset_y in range(-1, 2):
+				for offset_x in range(-1, 2):
+					# Don't check diagonals
 					#if offset_x == offset_y \
 					#or (offset_x == 1 and offset_y == -1) \
 					#or (offset_x == -1 and offset_y == 1):
@@ -320,7 +347,63 @@ func _generate() -> void:
 			if must_be_wall:
 				_data_set.matrix[y][x].tile_type = TileType.Wall
 				continue
+
+func _fix_and_validate_room(var room_info: RoomInfo) -> void:
+	var opening_count: int
 	
+	opening_count = 0
+	
+	for y in room_info.size.y:
+		for x in room_info.size.x:
+			var abs_pos: Vector2
+			
+			if (x > 0 and x < room_info.size.x - 1 and y > 0 and y < room_info.size.y - 1) \
+			or (x == 0 and y == 0) \
+			or (x == room_info.size.x - 1 and y == 0) \
+			or (x == 0 and y == room_info.size.y - 1) \
+			or (x == room_info.size.x - 1 and y == room_info.size.y - 1):
+				continue
+				
+			abs_pos = room_info.position + Vector2(x, y)
+				
+			if  _data_set.matrix[abs_pos.y][abs_pos.x].tile_type == TileType.Floor \
+			and _data_set.matrix[abs_pos.y][abs_pos.x].room_id == room_info.id:
+				opening_count += 1
+
+	if opening_count > 0:
+		return
+			
+	for y in room_info.size.y:
+		for x in room_info.size.x:
+			var abs_pos: Vector2
+			
+			if (x > 0 and x < room_info.size.x - 1 and y > 0 and y < room_info.size.y - 1) \
+			or (x == 0 and y == 0) \
+			or (x == room_info.size.x - 1 and y == 0) \
+			or (x == 0 and y == room_info.size.y - 1) \
+			or (x == room_info.size.x - 1 and y == room_info.size.y - 1):
+				continue
+			
+			abs_pos = room_info.position + Vector2(x, y)
+			
+			for offset_y in range(-1, 2):
+				for offset_x in range(-1, 2):
+					var is_diagonal: bool
+					
+					is_diagonal = \
+							offset_x == offset_y \
+						or (offset_x == 1 and offset_y == -1) \
+						or (offset_x == -1 and offset_y == 1)
+				
+					if is_diagonal:
+						continue
+						
+					if  _data_set.matrix[abs_pos.y + offset_y][abs_pos.x + offset_x] != null \
+					and _data_set.matrix[abs_pos.y + offset_y][abs_pos.x + offset_x].tile_type == TileType.Floor \
+					and _data_set.matrix[abs_pos.y + offset_y][abs_pos.x + offset_x].room_id != room_info.id:
+						_data_set.matrix[abs_pos.y][abs_pos.x].tile_type = TileType.Floor
+						return
+
 func __debug_render_map():
 	# For debug purpose only
 	for y in range(_settings.grid_size.y):
@@ -348,6 +431,14 @@ func __debug_render_map():
 					cube.material = __debug_floor_material
 				
 			__debug_root_node.add_child(cube)
+
+func _can_hallway_destroy_wall(var tile_info: TileInfo, var offset: int) -> bool:
+	if  tile_info.tile_type == TileType.Wall:
+		if (tile_info.room_type != RoomType.Hallway and offset == 0) \
+		or tile_info.room_type == RoomType.Hallway:
+			return true
+			
+	return false
 
 func __debug_load_materials():
 	__debug_floor_material = ShaderMaterial.new()
