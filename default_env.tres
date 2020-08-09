@@ -5,3 +5,9 @@
 [resource]
 background_mode = 2
 background_sky = SubResource( 1 )
+tonemap_mode = 3
+ssao_enabled = true
+ssao_radius2 = 1.0
+ssao_light_affect = 0.5
+ssao_edge_sharpness = 0.0
+dof_blur_near_enabled = true
