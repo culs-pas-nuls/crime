@@ -7,6 +7,7 @@ const DroppedItemScn = preload("res://Assets/DroppedItem/DroppedItem.tscn")
 const WALK_SPEED: float = 7.0
 const SPRINT_MULT: float = 2.0
 const DROP_FORCE: float = 8.0
+const INVENTORY_SIZE := 12
 
 var dir: Vector3 = Vector3()
 var sprinting := false
@@ -27,7 +28,7 @@ func _ready() -> void:
 
 
 func __init_hud():
-	inventory.init(6)
+	inventory.init(INVENTORY_SIZE)
 	inventory.hide()
 	inventory.connect("on_InventoryItem_click", self, "_on_InventoryItem_click")
 
@@ -132,9 +133,10 @@ func _pick_up_item(collider: Node):
 func _interact_with_item(collider: Node):
 	if collider.has_method("get_interaction_length"):
 		var length: float = collider.get_interaction_length()
-		interactions.start_interaction(self, "_on_interaction_done", length, [collider])
-		interact_progress.value = 0
-		interact_progress.show()
+		if length >= 0:
+			interactions.start_interaction(self, "_on_interaction_done", length, [collider])
+			interact_progress.value = 0
+			interact_progress.show()
 
 
 func _stop_interaction():
@@ -145,6 +147,7 @@ func _stop_interaction():
 
 func _on_interaction_done(collider: Node):
 	_stop_interaction()
-	var item = collider.get_item()
-	if inventory.add_item(item):
-		collider.pick_up()
+	var item = collider.interact()
+	if item == null: return
+	if not inventory.add_item(item):
+		_drop_item(item)

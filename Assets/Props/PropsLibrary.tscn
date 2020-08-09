@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Assets/Props/Models/Prop_Bedroom_Bed_Single.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://Assets/Props/Models/Prop_Bedroom_Bed_Bunk.obj" type="ArrayMesh" id=2]
@@ -18,11 +18,18 @@
 [ext_resource path="res://Assets/Props/CollisionShapes/1x1.tres" type="Shape" id=16]
 [ext_resource path="res://Assets/Props/CollisionShapes/1x2.tres" type="Shape" id=17]
 [ext_resource path="res://Assets/Props/CollisionShapes/2x3.tres" type="Shape" id=18]
+[ext_resource path="res://Gameplay/Props/PickableProp.gd" type="Script" id=19]
+[ext_resource path="res://Gameplay/Props/InteractableProp.gd" type="Script" id=20]
 
 [node name="PropsLibrary" type="Node"]
 
-[node name="Bed" type="Spatial" parent="."]
+[node name="Bed" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
+script = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Bed"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 1 )
+shape = ExtResource( 18 )
 
 [node name="BedMesh" type="MeshInstance" parent="Bed"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 1 )
@@ -32,14 +39,13 @@ material/1 = null
 material/2 = null
 material/3 = null
 
-[node name="StaticBody" type="StaticBody" parent="Bed"]
+[node name="BedTall" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 4 )
+script = ExtResource( 19 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Bed/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="BedTall"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 1 )
 shape = ExtResource( 18 )
-
-[node name="BedTall" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 4 )
 
 [node name="BedTallMesh" type="MeshInstance" parent="BedTall"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.8 )
@@ -58,13 +64,12 @@ material/10 = null
 material/11 = null
 material/12 = null
 
-[node name="StaticBody" type="StaticBody" parent="BedTall"]
+[node name="Dresser" type="StaticBody" parent="."]
+script = ExtResource( 20 )
 
-[node name="CollisionShape" type="CollisionShape" parent="BedTall/StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 1 )
-shape = ExtResource( 18 )
-
-[node name="Dresser" type="Spatial" parent="."]
+[node name="CollisionShape" type="CollisionShape" parent="Dresser"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
 
 [node name="DresserMesh" type="MeshInstance" parent="Dresser"]
 mesh = ExtResource( 10 )
@@ -84,14 +89,13 @@ material/12 = null
 material/13 = null
 material/14 = null
 
-[node name="StaticBody" type="StaticBody" parent="Dresser"]
+[node name="DresserTall" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
+script = ExtResource( 20 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Dresser/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="DresserTall"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="DresserTall" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 
 [node name="DresserTallMesh" type="MeshInstance" parent="DresserTall"]
 mesh = ExtResource( 9 )
@@ -117,14 +121,13 @@ material/18 = null
 material/19 = null
 material/20 = null
 
-[node name="StaticBody" type="StaticBody" parent="DresserTall"]
+[node name="Fridge" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
+script = ExtResource( 20 )
 
-[node name="CollisionShape" type="CollisionShape" parent="DresserTall/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Fridge"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="Fridge" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 
 [node name="FridgeMesh" type="MeshInstance" parent="Fridge"]
 mesh = ExtResource( 3 )
@@ -140,14 +143,13 @@ material/8 = null
 material/9 = null
 material/10 = null
 
-[node name="StaticBody" type="StaticBody" parent="Fridge"]
+[node name="Oven" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2 )
+script = ExtResource( 20 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Fridge/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Oven"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="Oven" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2 )
 
 [node name="OvenMesh" type="MeshInstance" parent="Oven"]
 mesh = ExtResource( 4 )
@@ -157,14 +159,13 @@ material/2 = null
 material/3 = null
 material/4 = null
 
-[node name="StaticBody" type="StaticBody" parent="Oven"]
+[node name="Microwave" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 4 )
+script = ExtResource( 20 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Oven/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Microwave"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="Microwave" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 4 )
 
 [node name="MicrowaveMesh" type="MeshInstance" parent="Microwave"]
 mesh = ExtResource( 11 )
@@ -217,28 +218,26 @@ material/45 = null
 material/46 = null
 material/47 = null
 
-[node name="StaticBody" type="StaticBody" parent="Microwave"]
+[node name="Television" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
+script = ExtResource( 19 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Microwave/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Television"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="Television" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
 
 [node name="TelevisionMesh" type="MeshInstance" parent="Television"]
 mesh = ExtResource( 5 )
 material/0 = null
 material/1 = null
 
-[node name="StaticBody" type="StaticBody" parent="Television"]
+[node name="TelevisionStand" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2 )
+script = ExtResource( 20 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Television/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="TelevisionStand"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="TelevisionStand" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2 )
 
 [node name="TelevisionStandMesh" type="MeshInstance" parent="TelevisionStand"]
 mesh = ExtResource( 12 )
@@ -254,14 +253,13 @@ material/8 = null
 material/9 = null
 material/10 = null
 
-[node name="StaticBody" type="StaticBody" parent="TelevisionStand"]
+[node name="Cabinet" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2 )
+script = ExtResource( 20 )
 
-[node name="CollisionShape" type="CollisionShape" parent="TelevisionStand/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Cabinet"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="Cabinet" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2 )
 
 [node name="CabinetMesh" type="MeshInstance" parent="Cabinet"]
 mesh = ExtResource( 6 )
@@ -276,14 +274,13 @@ material/7 = null
 material/8 = null
 material/9 = null
 
-[node name="StaticBody" type="StaticBody" parent="Cabinet"]
+[node name="Sink" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+script = ExtResource( 20 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Cabinet/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Sink"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="Sink" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
 
 [node name="SinkMesh" type="MeshInstance" parent="Sink"]
 mesh = ExtResource( 7 )
@@ -303,14 +300,13 @@ material/12 = null
 material/13 = null
 material/14 = null
 
-[node name="StaticBody" type="StaticBody" parent="Sink"]
+[node name="Toilet" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
+script = ExtResource( 20 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Sink/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Toilet"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="Toilet" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
 
 [node name="ToiletMesh" type="MeshInstance" parent="Toilet"]
 mesh = ExtResource( 8 )
@@ -319,14 +315,13 @@ material/1 = null
 material/2 = null
 material/3 = null
 
-[node name="StaticBody" type="StaticBody" parent="Toilet"]
+[node name="Lamp" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2 )
+script = ExtResource( 19 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Toilet/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Lamp"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shape = ExtResource( 16 )
-
-[node name="Lamp" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2 )
 
 [node name="LampMesh" type="MeshInstance" parent="Lamp"]
 mesh = ExtResource( 13 )
@@ -336,14 +331,13 @@ material/2 = null
 material/3 = null
 material/4 = null
 
-[node name="StaticBody" type="StaticBody" parent="Lamp"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Lamp/StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-shape = ExtResource( 16 )
-
-[node name="Bathtub" type="Spatial" parent="."]
+[node name="Bathtub" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3 )
+script = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Bathtub"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
+shape = ExtResource( 17 )
 
 [node name="BathtubMesh" type="MeshInstance" parent="Bathtub"]
 mesh = ExtResource( 14 )
@@ -373,14 +367,13 @@ material/22 = null
 material/23 = null
 material/24 = null
 
-[node name="StaticBody" type="StaticBody" parent="Bathtub"]
-
-[node name="CollisionShape" type="CollisionShape" parent="Bathtub/StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
-shape = ExtResource( 17 )
-
-[node name="ToiletPaper" type="Spatial" parent="."]
+[node name="ToiletPaper" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2 )
+script = ExtResource( 19 )
+
+[node name="CollisionShape" type="CollisionShape" parent="ToiletPaper"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
 
 [node name="ToiletPaperMesh" type="MeshInstance" parent="ToiletPaper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4 )
@@ -394,9 +387,3 @@ material/5 = null
 material/6 = null
 material/7 = null
 material/8 = null
-
-[node name="StaticBody" type="StaticBody" parent="ToiletPaper"]
-
-[node name="CollisionShape" type="CollisionShape" parent="ToiletPaper/StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-shape = ExtResource( 16 )
