@@ -73,6 +73,7 @@ _global_script_classes=[ {
 "class": "ObjectInfo",
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/ObjectInfo.gd"
+}, {
 "base": "StaticBody",
 "class": "PickableProp",
 "language": "GDScript",
