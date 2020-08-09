@@ -21,6 +21,9 @@ const PROP_NAME_LIST = [
 	"ToiletPaper"
 ]
 
+const __TMP_LOGO: StreamTexture = preload("res://icon.png")
+const __TMP_CONTENT_NAME: String = "Content"
+
 var __props := {}
 
 
@@ -46,7 +49,23 @@ func placeProps(root: Node, objects: Array) -> void:
 
 func spawnProp(root: Node, prop_name: String, position: Vector3, orientation: int) -> Spatial:
 	var prop = __props[prop_name].duplicate()
+	__init_prop(prop, prop_name)
 	prop.transform.origin = position
 	prop.rotate(__UP, __HALF_PI * orientation)
 	root.add_child(prop)
 	return prop
+
+
+func __init_prop(prop: Node, prop_name: String):
+	var rnd = RandomNumberGenerator.new()
+	rnd.randomize()
+
+	var prop_data = {}
+	if prop is PickableProp:
+		prop_data["logo"] = __TMP_LOGO
+		prop_data["name"] = prop_name
+		if prop is InteractableProp:
+			prop_data["content_logo"] = __TMP_LOGO
+			prop_data["content_name"] = __TMP_CONTENT_NAME
+			prop_data["length"] = 2
+	prop.init(prop_data)

@@ -15,7 +15,7 @@ func _init() -> void:
 	__tiles[RoomType.Bedroom] = tileLibrary.get_node("BedroomTile")
 	__tiles[RoomType.Kitchen] = tileLibrary.get_node("KitchenTile")
 	__tiles[RoomType.Hallway] = tileLibrary.get_node("HallwayTile")
-	
+
 	var wallLibrary := preload("res://Assets/Wall/WallLibrary.tscn").instance()
 	__walls[RoomType.Bathroom] = wallLibrary.get_node("BathroomWall")
 	__walls[RoomType.Bedroom] = wallLibrary.get_node("BedroomWall")

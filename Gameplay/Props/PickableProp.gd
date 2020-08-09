@@ -2,11 +2,9 @@ extends StaticBody
 
 class_name PickableProp
 
-onready var hitbox: CollisionShape = $Hitbox
+onready var hitbox: CollisionShape = $CollisionShape
 
 var _ITEM: Reference = null
-var _ITEM_LOGO: StreamTexture = null
-var _ITEM_NAME := ""
 
 
 # The `data` dictionnary expects two keys:
@@ -14,9 +12,9 @@ var _ITEM_NAME := ""
 #	"name" the item name (String)
 func init(data: Dictionary):
 	if _ITEM == null:
-		_ITEM_LOGO = data["logo"]
-		_ITEM_NAME = data["name"]
-		_ITEM = load("res://Gameplay/Props/Item.gd").new(_ITEM_LOGO, _ITEM_NAME)
+		var logo = data["logo"]
+		var name = data["name"]
+		_ITEM = load("res://Gameplay/Props/Item.gd").new(logo, name)
 
 
 func get_item():
