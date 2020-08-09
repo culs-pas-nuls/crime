@@ -2,7 +2,7 @@ extends Button
 
 class_name InventoryItem
 
-onready var image = $Images
+onready var image = $Image
 onready var label = $Label
 
 var item: Node = null
@@ -10,8 +10,8 @@ var item: Node = null
 
 func set_item(new_item: Node):
 	item = new_item
-	label.texture = new_item.item_logo
-	label.text = new_item.item_name
+	image.texture = new_item.get_item_logo()
+	label.text = new_item.get_item_name()
 
 
 func get_item() -> Node:
@@ -19,8 +19,9 @@ func get_item() -> Node:
 
 
 func clear_item():
-	label.texture = null
+	image.texture = null
 	label.text = ""
+	item = null
 
 
 func is_free() -> bool:

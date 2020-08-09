@@ -8,6 +8,7 @@ const WALK_SPEED: float = 7.0
 const SPRINT_MULT: float = 2.0
 const DROP_FORCE: float = 8.0
 
+var can_pick := true
 var dir: Vector3 = Vector3()
 var sprinting := false
 var moving := false
@@ -21,7 +22,7 @@ onready var inventory = $Inventory
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	animation_handler.animator = get_node("RotationHelper/character/AnimationPlayer")
-	inventory.init(12)
+	inventory.init(6)
 	inventory.hide()
 	inventory.connect("on_InventoryItem_click", self, "_on_InventoryItem_click")
 
@@ -73,16 +74,16 @@ func _integrate_forces(body: PhysicsDirectBodyState) -> void:
 
 
 func _process_interactions(_delta: float):
-	if Input.is_action_just_pressed("player_interact"):
+	if Input.is_action_just_pressed("player_pick_up"):
 		raycast.enabled = true
-		_drop_item(null)
 
-	elif Input.is_action_just_released("player_interact"):
+	elif Input.is_action_just_released("player_pick_up"):
 		raycast.enabled = false
+		can_pick = true
 
-	if raycast.is_colliding():
-		var collider = raycast.get_collider()
-		print("hit ", collider)
+	if raycast.is_colliding() and can_pick:
+		can_pick = false
+		_pick_up_item(raycast.get_collider())
 
 
 func _process_inventory(_delta: float):
@@ -102,9 +103,17 @@ func _on_InventoryItem_click(inventory_item: InventoryItem):
 
 
 func _drop_item(item: Node):
-	var dropped_item = DroppedItemScn.instance()
+	var dropped_item: DroppedItem = DroppedItemScn.instance()
 	dropped_item.transform.origin = transform.origin
 	dropped_item.set_item(item)
 	# The actual "front" is -Z
 	dropped_item.apply_central_impulse(-rotation_helper.transform.basis.z * DROP_FORCE)
 	get_tree().get_root().add_child(dropped_item)
+
+
+func _pick_up_item(collider: Node):
+	if collider.has_method("pick_up"):
+		var item = collider.get_item()
+		var added = inventory.add_item(item)
+		if added:
+			collider.pick_up()
