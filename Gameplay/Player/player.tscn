@@ -1,14 +1,18 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Gameplay/Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://Gameplay/Player/RotationHelper.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Character/character.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Gameplay/Player/AnimationHandler.gd" type="Script" id=4]
 [ext_resource path="res://Gameplay/Player/Inventory/Inventory.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Gameplay/Player/PlayerInteractions.gd" type="Script" id=6]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.543471
 height = 0.97713
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.384314, 0.384314, 0.423529, 1 )
 
 [node name="Player" type="RigidBody" groups=[
 "Players",
@@ -33,6 +37,7 @@ __meta__ = {
 
 [node name="RayCast" type="RayCast" parent="RotationHelper"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.349908 )
+enabled = true
 collide_with_areas = true
 
 [node name="character" parent="RotationHelper" instance=ExtResource( 3 )]
@@ -47,4 +52,27 @@ size = 16.0
 [node name="AnimationHandler" type="Node" parent="."]
 script = ExtResource( 4 )
 
-[node name="Inventory" parent="." instance=ExtResource( 5 )]
+[node name="PlayerInteractions" type="Timer" parent="."]
+script = ExtResource( 6 )
+
+[node name="HUD" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InteractProgress" type="ProgressBar" parent="HUD"]
+margin_left = 760.0
+margin_top = 296.0
+margin_right = 840.0
+margin_bottom = 304.0
+custom_styles/fg = SubResource( 2 )
+max_value = 1.0
+value = 0.5
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Inventory" parent="HUD" instance=ExtResource( 5 )]
