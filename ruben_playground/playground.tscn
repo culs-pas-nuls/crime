@@ -36,6 +36,7 @@ material/0 = null
 shape = SubResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0957906, 0 )
 
 [node name="Spatial" type="Spatial" parent="."]
 
