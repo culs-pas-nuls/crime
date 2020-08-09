@@ -99,7 +99,7 @@ _global_script_class_icons={
 [application]
 
 config/name="crime"
-run/main_scene="res://Levels/House/House.tscn"
+run/main_scene="res://Levels/MainMenu/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
