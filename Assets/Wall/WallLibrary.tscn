@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Assets/Wall/Materials/BathroomWallMaterial.tres" type="Material" id=1]
 [ext_resource path="res://Assets/Wall/Materials/HallwayWallMaterial.tres" type="Material" id=2]
 [ext_resource path="res://Assets/Wall/wall.obj" type="ArrayMesh" id=3]
 [ext_resource path="res://Assets/Wall/Materials/BedroomWallMaterial.tres" type="Material" id=4]
 [ext_resource path="res://Assets/Wall/Materials/KitchenWall.tres" type="Material" id=5]
+
+[sub_resource type="BoxShape" id=1]
+margin = 0.1
+extents = Vector3( 0.5, 1.5, 0.5 )
 
 [node name="WallLibrary" type="Node"]
 
@@ -26,3 +30,10 @@ material/0 = ExtResource( 4 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 mesh = ExtResource( 3 )
 material/0 = ExtResource( 5 )
+
+[node name="WallHitbox" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="WallHitbox"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+shape = SubResource( 1 )
