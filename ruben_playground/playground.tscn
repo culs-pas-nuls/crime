@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Gameplay/Player/player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://ruben_playground/Pickable.gd" type="Script" id=2]
+[ext_resource path="res://Gameplay/Props/InteractableProp.gd" type="Script" id=3]
+[ext_resource path="res://ruben_playground/playground.gd" type="Script" id=4]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.623047, 0.498601, 0.248245, 1 )
@@ -17,12 +18,13 @@ extents = Vector3( 50, 0.001, 50 )
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 5.00259, 2.99817, 0.118383 )
 
-[sub_resource type="BoxShape" id=6]
-extents = Vector3( 0.337377, 2.91404, 1 )
+[sub_resource type="CylinderShape" id=6]
+height = 6.0
 
-[sub_resource type="CubeMesh" id=7]
+[sub_resource type="CylinderMesh" id=7]
 
 [node name="Spatial" type="Spatial"]
+script = ExtResource( 4 )
 
 [node name="StaticBody" type="StaticBody" parent="."]
 collision_mask = 15
@@ -38,258 +40,180 @@ shape = SubResource( 3 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0957906, 0 )
 
-[node name="Spatial" type="Spatial" parent="."]
+[node name="Walls" type="Spatial" parent="."]
 
-[node name="Wall" type="StaticBody" parent="Spatial"]
+[node name="Wall" type="StaticBody" parent="Walls"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3, 0 )
 collision_mask = 15
 
-[node name="MeshInstance" type="MeshInstance" parent="Spatial/Wall"]
+[node name="MeshInstance" type="MeshInstance" parent="Walls/Wall"]
 transform = Transform( 5, 0, 0, 0, 3, 0, 0, 0, 0.1, 0, 0, 0 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Wall"]
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall"]
 shape = SubResource( 5 )
 
-[node name="Wall2" type="StaticBody" parent="Spatial"]
+[node name="Wall2" type="StaticBody" parent="Walls"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5, 3, 5 )
 collision_mask = 15
 
-[node name="MeshInstance" type="MeshInstance" parent="Spatial/Wall2"]
+[node name="MeshInstance" type="MeshInstance" parent="Walls/Wall2"]
 transform = Transform( 5, 0, 0, 0, 3, 0, 0, 0, 0.1, 0, 0, 0 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Wall2"]
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall2"]
 shape = SubResource( 5 )
 
-[node name="Wall3" type="StaticBody" parent="Spatial"]
+[node name="Wall3" type="StaticBody" parent="Walls"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 10 )
 collision_mask = 15
 
-[node name="MeshInstance" type="MeshInstance" parent="Spatial/Wall3"]
+[node name="MeshInstance" type="MeshInstance" parent="Walls/Wall3"]
 transform = Transform( 5, 0, 0, 0, 3, 0, 0, 0, 0.1, 0, 0, 0 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Wall3"]
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall3"]
 shape = SubResource( 5 )
 
-[node name="Wall4" type="StaticBody" parent="Spatial"]
+[node name="Wall4" type="StaticBody" parent="Walls"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 3, 5 )
 collision_mask = 15
 
-[node name="MeshInstance" type="MeshInstance" parent="Spatial/Wall4"]
+[node name="MeshInstance" type="MeshInstance" parent="Walls/Wall4"]
 transform = Transform( 5, 0, 0, 0, 3, 0, 0, 0, 0.1, 0, 0, 0 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Wall4"]
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall4"]
 shape = SubResource( 5 )
 
-[node name="Wall5" type="StaticBody" parent="Spatial"]
+[node name="Wall5" type="StaticBody" parent="Walls"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 3, -5 )
 collision_mask = 15
 
-[node name="MeshInstance" type="MeshInstance" parent="Spatial/Wall5"]
+[node name="MeshInstance" type="MeshInstance" parent="Walls/Wall5"]
 transform = Transform( 5, 0, 0, 0, 3, 0, 0, 0, 0.1, 0, 0, 0 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Wall5"]
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall5"]
 shape = SubResource( 5 )
 
-[node name="Wall6" type="StaticBody" parent="Spatial"]
+[node name="Wall6" type="StaticBody" parent="Walls"]
 transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 10, 3, -10 )
 collision_mask = 15
 
-[node name="MeshInstance" type="MeshInstance" parent="Spatial/Wall6"]
+[node name="MeshInstance" type="MeshInstance" parent="Walls/Wall6"]
 transform = Transform( 5, 0, 0, 0, 3, 0, 0, 0, 0.1, 0, 0, 0 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Wall6"]
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall6"]
 shape = SubResource( 5 )
 
-[node name="Wall7" type="StaticBody" parent="Spatial"]
+[node name="Wall7" type="StaticBody" parent="Walls"]
 transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 1, 3, -14 )
 collision_mask = 15
 
-[node name="MeshInstance" type="MeshInstance" parent="Spatial/Wall7"]
+[node name="MeshInstance" type="MeshInstance" parent="Walls/Wall7"]
 transform = Transform( 5, 0, 0, 0, 3, 0, 0, 0, 0.1, 0, 0, 0 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Wall7"]
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall7"]
 shape = SubResource( 5 )
 
-[node name="Wall8" type="StaticBody" parent="Spatial"]
+[node name="Wall8" type="StaticBody" parent="Walls"]
 transform = Transform( -1, 0, 5.96046e-08, 0, 1, 0, -5.96046e-08, 0, -1, -10, 3, -10 )
 collision_mask = 15
 
-[node name="MeshInstance" type="MeshInstance" parent="Spatial/Wall8"]
+[node name="MeshInstance" type="MeshInstance" parent="Walls/Wall8"]
 transform = Transform( 5, 0, 0, 0, 3, 0, 0, 0, 0.1, 0, 0, 0 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="CollisionShape" type="CollisionShape" parent="Spatial/Wall8"]
+[node name="CollisionShape" type="CollisionShape" parent="Walls/Wall8"]
 shape = SubResource( 5 )
 
-[node name="Pickables" type="Spatial" parent="."]
+[node name="Interactables" type="Spatial" parent="."]
 
-[node name="Pickable" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3, -5.07225 )
-collision_mask = 15
-script = ExtResource( 2 )
+[node name="Interactable" type="StaticBody" parent="Interactables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.429, 0, -26.0713 )
+script = ExtResource( 3 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable"]
+[node name="Hitbox" type="CollisionShape" parent="Interactables/Interactable"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 shape = SubResource( 6 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+[node name="MeshInstance" type="MeshInstance" parent="Interactables/Interactable"]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 0, 2, 0 )
 mesh = SubResource( 7 )
 material/0 = null
 
-[node name="Pickable8" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.2797, 3, -15.4665 )
-collision_mask = 15
-script = ExtResource( 2 )
+[node name="Interactable3" type="StaticBody" parent="Interactables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.429, 0, -24.0713 )
+script = ExtResource( 3 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable8"]
+[node name="Hitbox" type="CollisionShape" parent="Interactables/Interactable3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 shape = SubResource( 6 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable8"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+[node name="MeshInstance" type="MeshInstance" parent="Interactables/Interactable3"]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 0, 2, 0 )
 mesh = SubResource( 7 )
 material/0 = null
 
-[node name="Pickable9" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.1886, 3, 2.20325 )
-collision_mask = 15
-script = ExtResource( 2 )
+[node name="Interactable4" type="StaticBody" parent="Interactables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.429, 0, -20.0713 )
+script = ExtResource( 3 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable9"]
+[node name="Hitbox" type="CollisionShape" parent="Interactables/Interactable4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 shape = SubResource( 6 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable9"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+[node name="MeshInstance" type="MeshInstance" parent="Interactables/Interactable4"]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 0, 2, 0 )
 mesh = SubResource( 7 )
 material/0 = null
 
-[node name="Pickable10" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.975, 3, 2.94881 )
-collision_mask = 15
-script = ExtResource( 2 )
+[node name="Interactable5" type="StaticBody" parent="Interactables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.571, 0, -26.0713 )
+script = ExtResource( 3 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable10"]
+[node name="Hitbox" type="CollisionShape" parent="Interactables/Interactable5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 shape = SubResource( 6 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable10"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+[node name="MeshInstance" type="MeshInstance" parent="Interactables/Interactable5"]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 0, 2, 0 )
 mesh = SubResource( 7 )
 material/0 = null
 
-[node name="Pickable11" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9383, 3, 0.0703344 )
-collision_mask = 15
-script = ExtResource( 2 )
+[node name="Interactable6" type="StaticBody" parent="Interactables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14.429, 0, -26.0713 )
+script = ExtResource( 3 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable11"]
+[node name="Hitbox" type="CollisionShape" parent="Interactables/Interactable6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 shape = SubResource( 6 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable11"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+[node name="MeshInstance" type="MeshInstance" parent="Interactables/Interactable6"]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 0, 2, 0 )
 mesh = SubResource( 7 )
 material/0 = null
 
-[node name="Pickable12" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.8769, 3, -16.7595 )
-collision_mask = 15
-script = ExtResource( 2 )
+[node name="Interactable2" type="StaticBody" parent="Interactables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.571, 0, -21.0713 )
+script = ExtResource( 3 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable12"]
+[node name="Hitbox" type="CollisionShape" parent="Interactables/Interactable2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 shape = SubResource( 6 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable12"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 7 )
-material/0 = null
-
-[node name="Pickable2" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8134, 3, -4.83803 )
-collision_mask = 15
-script = ExtResource( 2 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable2"]
-shape = SubResource( 6 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable2"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 7 )
-material/0 = null
-
-[node name="Pickable3" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4135, 3, -9.63266 )
-collision_mask = 15
-script = ExtResource( 2 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable3"]
-shape = SubResource( 6 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable3"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 7 )
-material/0 = null
-
-[node name="Pickable4" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9272, 3, -4.91876 )
-collision_mask = 15
-script = ExtResource( 2 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable4"]
-shape = SubResource( 6 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable4"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 7 )
-material/0 = null
-
-[node name="Pickable5" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.2014, 3, -8.11448 )
-collision_mask = 15
-script = ExtResource( 2 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable5"]
-shape = SubResource( 6 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable5"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 7 )
-material/0 = null
-
-[node name="Pickable6" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.6617, 3, -2.65074 )
-collision_mask = 15
-script = ExtResource( 2 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable6"]
-shape = SubResource( 6 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable6"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
-mesh = SubResource( 7 )
-material/0 = null
-
-[node name="Pickable7" type="StaticBody" parent="Pickables"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26.2592, 3, -10.7595 )
-collision_mask = 15
-script = ExtResource( 2 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable7"]
-shape = SubResource( 6 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable7"]
-transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+[node name="MeshInstance" type="MeshInstance" parent="Interactables/Interactable2"]
+transform = Transform( 1, 0, 0, 0, 3, 0, 0, 0, 1, 0, 2, 0 )
 mesh = SubResource( 7 )
 material/0 = null
