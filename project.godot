@@ -44,6 +44,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/MapGeneratorSettings.gd"
 }, {
+"base": "Reference",
+"class": "ObjectGenerator",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/ObjectGenerator.gd"
+}, {
+"base": "Reference",
+"class": "ObjectGeneratorSettings",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/Data/ObjectGeneratorSettings.gd"
+}, {
+"base": "Reference",
+"class": "ObjectInfo",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/Data/ObjectInfo.gd"
+}, {
 "base": "RigidBody",
 "class": "Player",
 "language": "GDScript",
@@ -82,6 +97,9 @@ _global_script_class_icons={
 "MapGenerator": "",
 "MapGeneratorDataSet": "",
 "MapGeneratorSettings": "",
+"ObjectGenerator": "",
+"ObjectGeneratorSettings": "",
+"ObjectInfo": "",
 "Player": "",
 "RoomInfo": "",
 "RoomType": "",
@@ -99,54 +117,6 @@ config/icon="res://icon.png"
 [autoload]
 
 GM="*res://Game System/GameManager.tscn"
-
-[display]
-
-window/size/width=1600
-window/size/height=900
-
-[input]
-
-ui_left={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777231,"unicode":0,"echo":false,"script":null)
- ]
-}
-ui_page_up={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777235,"unicode":0,"echo":false,"script":null)
- ]
-}
-player_move_left={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"unicode":0,"echo":false,"script":null)
- ]
-}
-player_move_right={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
- ]
-}
-player_move_up={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"unicode":0,"echo":false,"script":null)
- ]
-}
-player_move_down={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"unicode":0,"echo":false,"script":null)
- ]
-}
-player_sprint={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
- ]
-}
-open_inventory={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
- ]
-}
 
 [rendering]
 

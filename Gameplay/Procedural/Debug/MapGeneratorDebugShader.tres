@@ -31,4 +31,4 @@ void light() {
 "
 nodes/fragment/2/node = SubResource( 1 )
 nodes/fragment/2/position = Vector2( 20, 120 )
-nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 2, 0, 0, 0 )
