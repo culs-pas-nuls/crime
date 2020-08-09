@@ -1,0 +1,402 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://Assets/Props/Models/Prop_Bedroom_Bed_Single.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Assets/Props/Models/Prop_Bedroom_Bed_Bunk.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://Assets/Props/Models/Prop_Kitchen_Refrigerator.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://Assets/Props/Models/Prop_Kitchen_Oven.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://Assets/Props/Models/Prop_Living_Room_TV.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://Assets/Props/Models/Structure_Bathroom_Cabinet_Full.obj" type="ArrayMesh" id=6]
+[ext_resource path="res://Assets/Props/Models/Structure_Bathroom_Cabinet_Sink.obj" type="ArrayMesh" id=7]
+[ext_resource path="res://Assets/Props/Models/Prop_Bathroom_Toilet.obj" type="ArrayMesh" id=8]
+[ext_resource path="res://Assets/Props/Models/Prop_Bedroom_Dresser_Single_Tall.obj" type="ArrayMesh" id=9]
+[ext_resource path="res://Assets/Props/Models/Prop_Bedroom_Dresser_Single.obj" type="ArrayMesh" id=10]
+[ext_resource path="res://Assets/Props/Models/Prop_Kitchen_Microwave.obj" type="ArrayMesh" id=11]
+[ext_resource path="res://Assets/Props/Models/Prop_Living_Room_TV_Stand.obj" type="ArrayMesh" id=12]
+[ext_resource path="res://Assets/Props/Models/Prop_Misc_Lamp.obj" type="ArrayMesh" id=13]
+[ext_resource path="res://Assets/Props/Models/Prop_Bathroom_Shower.obj" type="ArrayMesh" id=14]
+[ext_resource path="res://Assets/Props/Models/Prop_Bathroom_Toilet_Paper_Dispenser.obj" type="ArrayMesh" id=15]
+[ext_resource path="res://Assets/Props/CollisionShapes/1x1.tres" type="Shape" id=16]
+[ext_resource path="res://Assets/Props/CollisionShapes/1x2.tres" type="Shape" id=17]
+[ext_resource path="res://Assets/Props/CollisionShapes/2x3.tres" type="Shape" id=18]
+
+[node name="PropsLibrary" type="Node"]
+
+[node name="Bed" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
+
+[node name="BedMesh" type="MeshInstance" parent="Bed"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 1 )
+mesh = ExtResource( 1 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+
+[node name="StaticBody" type="StaticBody" parent="Bed"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Bed/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 1 )
+shape = ExtResource( 18 )
+
+[node name="BedTall" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 4 )
+
+[node name="BedTallMesh" type="MeshInstance" parent="BedTall"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.8 )
+mesh = ExtResource( 2 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+material/10 = null
+material/11 = null
+material/12 = null
+
+[node name="StaticBody" type="StaticBody" parent="BedTall"]
+
+[node name="CollisionShape" type="CollisionShape" parent="BedTall/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 1 )
+shape = ExtResource( 18 )
+
+[node name="Dresser" type="Spatial" parent="."]
+
+[node name="DresserMesh" type="MeshInstance" parent="Dresser"]
+mesh = ExtResource( 10 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+material/10 = null
+material/11 = null
+material/12 = null
+material/13 = null
+material/14 = null
+
+[node name="StaticBody" type="StaticBody" parent="Dresser"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Dresser/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="DresserTall" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
+
+[node name="DresserTallMesh" type="MeshInstance" parent="DresserTall"]
+mesh = ExtResource( 9 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+material/10 = null
+material/11 = null
+material/12 = null
+material/13 = null
+material/14 = null
+material/15 = null
+material/16 = null
+material/17 = null
+material/18 = null
+material/19 = null
+material/20 = null
+
+[node name="StaticBody" type="StaticBody" parent="DresserTall"]
+
+[node name="CollisionShape" type="CollisionShape" parent="DresserTall/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="Fridge" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
+
+[node name="FridgeMesh" type="MeshInstance" parent="Fridge"]
+mesh = ExtResource( 3 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+material/10 = null
+
+[node name="StaticBody" type="StaticBody" parent="Fridge"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Fridge/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="Oven" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2 )
+
+[node name="OvenMesh" type="MeshInstance" parent="Oven"]
+mesh = ExtResource( 4 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+
+[node name="StaticBody" type="StaticBody" parent="Oven"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Oven/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="Microwave" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 4 )
+
+[node name="MicrowaveMesh" type="MeshInstance" parent="Microwave"]
+mesh = ExtResource( 11 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+material/10 = null
+material/11 = null
+material/12 = null
+material/13 = null
+material/14 = null
+material/15 = null
+material/16 = null
+material/17 = null
+material/18 = null
+material/19 = null
+material/20 = null
+material/21 = null
+material/22 = null
+material/23 = null
+material/24 = null
+material/25 = null
+material/26 = null
+material/27 = null
+material/28 = null
+material/29 = null
+material/30 = null
+material/31 = null
+material/32 = null
+material/33 = null
+material/34 = null
+material/35 = null
+material/36 = null
+material/37 = null
+material/38 = null
+material/39 = null
+material/40 = null
+material/41 = null
+material/42 = null
+material/43 = null
+material/44 = null
+material/45 = null
+material/46 = null
+material/47 = null
+
+[node name="StaticBody" type="StaticBody" parent="Microwave"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Microwave/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="Television" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
+
+[node name="TelevisionMesh" type="MeshInstance" parent="Television"]
+mesh = ExtResource( 5 )
+material/0 = null
+material/1 = null
+
+[node name="StaticBody" type="StaticBody" parent="Television"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Television/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="TelevisionStand" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2 )
+
+[node name="TelevisionStandMesh" type="MeshInstance" parent="TelevisionStand"]
+mesh = ExtResource( 12 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+material/10 = null
+
+[node name="StaticBody" type="StaticBody" parent="TelevisionStand"]
+
+[node name="CollisionShape" type="CollisionShape" parent="TelevisionStand/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="Cabinet" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2 )
+
+[node name="CabinetMesh" type="MeshInstance" parent="Cabinet"]
+mesh = ExtResource( 6 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+
+[node name="StaticBody" type="StaticBody" parent="Cabinet"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Cabinet/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="Sink" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+
+[node name="SinkMesh" type="MeshInstance" parent="Sink"]
+mesh = ExtResource( 7 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+material/10 = null
+material/11 = null
+material/12 = null
+material/13 = null
+material/14 = null
+
+[node name="StaticBody" type="StaticBody" parent="Sink"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Sink/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="Toilet" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
+
+[node name="ToiletMesh" type="MeshInstance" parent="Toilet"]
+mesh = ExtResource( 8 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+
+[node name="StaticBody" type="StaticBody" parent="Toilet"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Toilet/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="Lamp" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2 )
+
+[node name="LampMesh" type="MeshInstance" parent="Lamp"]
+mesh = ExtResource( 13 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+
+[node name="StaticBody" type="StaticBody" parent="Lamp"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Lamp/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )
+
+[node name="Bathtub" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -3 )
+
+[node name="BathtubMesh" type="MeshInstance" parent="Bathtub"]
+mesh = ExtResource( 14 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+material/9 = null
+material/10 = null
+material/11 = null
+material/12 = null
+material/13 = null
+material/14 = null
+material/15 = null
+material/16 = null
+material/17 = null
+material/18 = null
+material/19 = null
+material/20 = null
+material/21 = null
+material/22 = null
+material/23 = null
+material/24 = null
+
+[node name="StaticBody" type="StaticBody" parent="Bathtub"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Bathtub/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.5 )
+shape = ExtResource( 17 )
+
+[node name="ToiletPaper" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2 )
+
+[node name="ToiletPaperMesh" type="MeshInstance" parent="ToiletPaper"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4 )
+mesh = ExtResource( 15 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
+material/8 = null
+
+[node name="StaticBody" type="StaticBody" parent="ToiletPaper"]
+
+[node name="CollisionShape" type="CollisionShape" parent="ToiletPaper/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = ExtResource( 16 )

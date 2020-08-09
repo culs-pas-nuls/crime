@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Prop_Bathroom_Toilet_Paper_Dispenser.obj-d07afcdb53d137b408c8667d86338706.mesh"
+
+[deps]
+
+files=[ "res://.import/Prop_Bathroom_Toilet_Paper_Dispenser.obj-d07afcdb53d137b408c8667d86338706.mesh" ]
+
+source_file="res://Assets/Props/Models/Prop_Bathroom_Toilet_Paper_Dispenser.obj"
+dest_files=[ "res://.import/Prop_Bathroom_Toilet_Paper_Dispenser.obj-d07afcdb53d137b408c8667d86338706.mesh", "res://.import/Prop_Bathroom_Toilet_Paper_Dispenser.obj-d07afcdb53d137b408c8667d86338706.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
