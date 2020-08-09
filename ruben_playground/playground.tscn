@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Gameplay/Player/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://ruben_playground/Pickable.gd" type="Script" id=2]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.623047, 0.498601, 0.248245, 1 )
@@ -134,14 +135,160 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Spatial/Wall8"]
 shape = SubResource( 5 )
 
-[node name="TouchMe" type="StaticBody" parent="."]
+[node name="Pickables" type="Spatial" parent="."]
+
+[node name="Pickable" type="StaticBody" parent="Pickables"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 3, -5.07225 )
 collision_mask = 15
+script = ExtResource( 2 )
 
-[node name="CollisionShape" type="CollisionShape" parent="TouchMe"]
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable"]
 shape = SubResource( 6 )
 
-[node name="MeshInstance" type="MeshInstance" parent="TouchMe"]
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable8" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.2797, 3, -15.4665 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable8"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable8"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable9" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.1886, 3, 2.20325 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable9"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable9"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable10" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.975, 3, 2.94881 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable10"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable10"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable11" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9383, 3, 0.0703344 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable11"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable11"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable12" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.8769, 3, -16.7595 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable12"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable12"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable2" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8134, 3, -4.83803 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable2"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable2"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable3" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.4135, 3, -9.63266 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable3"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable3"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable4" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9272, 3, -4.91876 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable4"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable4"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable5" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.2014, 3, -8.11448 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable5"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable5"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable6" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.6617, 3, -2.65074 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable6"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable6"]
+transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="Pickable7" type="StaticBody" parent="Pickables"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26.2592, 3, -10.7595 )
+collision_mask = 15
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Pickables/Pickable7"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Pickables/Pickable7"]
 transform = Transform( 0.3, 0, 0, 0, 2.9, 0, 0, 0, 1, 0, 0, 0 )
 mesh = SubResource( 7 )
 material/0 = null
