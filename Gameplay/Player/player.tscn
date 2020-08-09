@@ -14,6 +14,7 @@ height = 0.97713
 "Players",
 ]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50539, 0 )
+collision_layer = 2
 axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_y = true

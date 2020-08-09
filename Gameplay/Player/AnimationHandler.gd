@@ -55,6 +55,7 @@ func progress_animation_stance(moving: bool, sprinting: bool):
 			_play_walk_animation(animation_name, SPRINT_SPEED)
 
 
+
 func _play_walk_animation(animation_name: String, speed: float = 1):
 	if animator.current_animation != animation_name:
 		animator.stop()
