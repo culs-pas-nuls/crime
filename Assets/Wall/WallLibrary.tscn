@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/Wall/BathroomWallMaterial.tres" type="Material" id=1]
-[ext_resource path="res://Assets/Wall/HallwayWallMaterial.tres" type="Material" id=2]
+[ext_resource path="res://Assets/Wall/Materials/BathroomWallMaterial.tres" type="Material" id=1]
+[ext_resource path="res://Assets/Wall/Materials/HallwayWallMaterial.tres" type="Material" id=2]
 [ext_resource path="res://Assets/Wall/wall.obj" type="ArrayMesh" id=3]
-[ext_resource path="res://Assets/Wall/BedroomWallMaterial.tres" type="Material" id=4]
+[ext_resource path="res://Assets/Wall/Materials/BedroomWallMaterial.tres" type="Material" id=4]
+[ext_resource path="res://Assets/Wall/Materials/KitchenWall.tres" type="Material" id=5]
 
 [node name="WallLibrary" type="Node"]
 
@@ -20,3 +21,8 @@ material/0 = ExtResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
 mesh = ExtResource( 3 )
 material/0 = ExtResource( 4 )
+
+[node name="KitchenWall" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
+mesh = ExtResource( 3 )
+material/0 = ExtResource( 5 )

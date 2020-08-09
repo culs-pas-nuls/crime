@@ -1,10 +1,3 @@
-# Blender MTL File: 'wall.blend'
-# Material Count: 1
-
-newmtl None
-Ns 0
-Ka 0.000000 0.000000 0.000000
-Kd 0.8 0.8 0.8
-Ks 0.8 0.8 0.8
-d 1
-illum 2
+version https://git-lfs.github.com/spec/v1
+oid sha256:3e0e218e3584a28bf11fcee79ef39ec7644393290944474639591da5aec5ff83
+size 153

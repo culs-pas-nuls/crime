@@ -9,4 +9,4 @@ metallic_specular = 0.0
 normal_enabled = true
 normal_scale = 4.0
 normal_texture = ExtResource( 2 )
-uv1_scale = Vector3( 0.3, 0.3, 0.3 )
+uv1_scale = Vector3( 0.2, 0.2, 0.2 )
