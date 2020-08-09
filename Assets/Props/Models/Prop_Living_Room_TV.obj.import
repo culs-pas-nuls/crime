@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Prop_Living_Room_TV.obj-4b5850b77bbb6ff9513b7bf9b43c533e.mesh"
+
+[deps]
+
+files=[ "res://.import/Prop_Living_Room_TV.obj-4b5850b77bbb6ff9513b7bf9b43c533e.mesh" ]
+
+source_file="res://Assets/Props/Models/Prop_Living_Room_TV.obj"
+dest_files=[ "res://.import/Prop_Living_Room_TV.obj-4b5850b77bbb6ff9513b7bf9b43c533e.mesh", "res://.import/Prop_Living_Room_TV.obj-4b5850b77bbb6ff9513b7bf9b43c533e.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

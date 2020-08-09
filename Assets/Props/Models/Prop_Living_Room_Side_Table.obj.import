@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Prop_Living_Room_Side_Table.obj-73b313b53a40105d057d00c125c9b849.mesh"
+
+[deps]
+
+files=[ "res://.import/Prop_Living_Room_Side_Table.obj-73b313b53a40105d057d00c125c9b849.mesh" ]
+
+source_file="res://Assets/Props/Models/Prop_Living_Room_Side_Table.obj"
+dest_files=[ "res://.import/Prop_Living_Room_Side_Table.obj-73b313b53a40105d057d00c125c9b849.mesh", "res://.import/Prop_Living_Room_Side_Table.obj-73b313b53a40105d057d00c125c9b849.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
