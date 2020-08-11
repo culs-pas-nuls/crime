@@ -65,6 +65,11 @@ _global_script_classes=[ {
 "path": "res://Gameplay/Procedural/ObjectGenerator.gd"
 }, {
 "base": "Reference",
+"class": "ObjectGeneratorDataSet",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/Data/ObjectGeneratorDataSet.gd"
+}, {
+"base": "Reference",
 "class": "ObjectGeneratorSettings",
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/ObjectGeneratorSettings.gd"
@@ -73,6 +78,11 @@ _global_script_classes=[ {
 "class": "ObjectInfo",
 "language": "GDScript",
 "path": "res://Gameplay/Procedural/Data/ObjectInfo.gd"
+}, {
+"base": "Reference",
+"class": "PathFinder",
+"language": "GDScript",
+"path": "res://Gameplay/Procedural/PathFinder.gd"
 }, {
 "base": "StaticBody",
 "class": "PickableProp",
@@ -131,8 +141,10 @@ _global_script_class_icons={
 "MapGeneratorDataSet": "",
 "MapGeneratorSettings": "",
 "ObjectGenerator": "",
+"ObjectGeneratorDataSet": "",
 "ObjectGeneratorSettings": "",
 "ObjectInfo": "",
+"PathFinder": "",
 "PickableProp": "",
 "Player": "",
 "PlayerInteractions": "",
@@ -153,6 +165,7 @@ config/icon="res://icon.png"
 [autoload]
 
 GM="*res://Game System/GameManager.tscn"
+ProceduralHelper="*res://Gameplay/Procedural/ProceduralHelper.gd"
 
 [debug]
 

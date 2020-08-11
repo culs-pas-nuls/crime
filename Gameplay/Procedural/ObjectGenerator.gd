@@ -1,12 +1,13 @@
 class_name ObjectGenerator
 
+var data_set: ObjectGeneratorDataSet
+
 var _settings: ObjectGeneratorSettings
 var _map_gen_data_set: MapGeneratorDataSet
 var _rnd: RandomNumberGenerator
 
 var __debug_root_node: Node
 var __debug_object_material: ShaderMaterial
-var __debug_map_gen_settings: MapGeneratorSettings
 
 const __debug_diffuse_color_param_name: String = "DiffuseColor"
 const __debug_shader: Shader = preload("res://Gameplay/Procedural/Debug/MapGeneratorDebugShader.tres")
@@ -15,29 +16,35 @@ func __debug_load_materials():
 	__debug_object_material = ShaderMaterial.new()
 	__debug_object_material.shader = __debug_shader
 	__debug_object_material.set_shader_param(__debug_diffuse_color_param_name, Color.aquamarine)
+	
+func get_object_from_position(position: Vector2) -> ObjectInfo:
+	for object in data_set.objects:
+		if object.position == position:
+			return object
+			
+	return null
 
-func generate_new_objects(map_gen_data_set: MapGeneratorDataSet, var settings: ObjectGeneratorSettings = null, var debug_root_node: Node = null) -> Array:
+func generate_new_objects(debug_root_node: Node = null) -> void:
 	var matrix: Array
-	var objects: Array
 	
 	__debug_root_node = debug_root_node
 
 	if __debug_root_node != null:
 		__debug_load_materials()
 	
-	_rnd = RandomNumberGenerator.new()
-	_rnd.randomize()
+	_rnd = ProceduralHelper.rnd
 	
-	objects = []
+	matrix = ProceduralHelper.map_generator.data_set.matrix
 	
-	matrix = map_gen_data_set.matrix
-	
-	if settings != null:
-		_settings = settings
-	else:
-		_settings = ObjectGeneratorSettings.new()
-	
-	_map_gen_data_set = map_gen_data_set
+	_settings = ProceduralHelper.object_generator_settings
+	_map_gen_data_set = ProceduralHelper.map_generator.data_set
+	data_set = ObjectGeneratorDataSet.new()
+
+	# Matrix initialization
+	for y in range(ProceduralHelper.map_generator_settings.grid_size.y):
+		data_set.matrix.push_back([])
+		for x in range(ProceduralHelper.map_generator_settings.grid_size.x):
+			data_set.matrix[y].push_back(0)
 	
 	# We fill the rooms with random objects
 	for room_info in _map_gen_data_set.rooms:
@@ -192,36 +199,34 @@ func generate_new_objects(map_gen_data_set: MapGeneratorDataSet, var settings: O
 			if not can_place:
 				continue
 				
-			objects.push_back(obj_info)
+			data_set.objects.push_back(obj_info)
 			
-			# Update the area
+			# Update the area and the matrix
 			for y in obj_info.size.y:
 				for x in obj_info.size.x:
 					area[local_pos.y + y][local_pos.x + x] = 0
+					data_set.matrix[obj_info.position.y + y][obj_info.position.x + x] = 1
 			
 	if __debug_root_node != null:
-		__debug_map_gen_settings = MapGeneratorSettings.new()
-		__debug_render_objects(objects)
-
-	return objects
+		__debug_render_objects(data_set.objects)
 	
-func __debug_render_objects(var objects: Array):
+func __debug_render_objects(objects: Array):
 	for object in objects:
 		for y in object.size.y:
 			for x in object.size.x:
 				var cube: CSGBox
 				
 				cube = CSGBox.new()
-				cube.width = __debug_map_gen_settings.tile_size
-				cube.height = __debug_map_gen_settings.tile_size
-				cube.depth = __debug_map_gen_settings.tile_size
+				cube.width = ProceduralHelper.map_generator_settings.tile_size
+				cube.height = ProceduralHelper.map_generator_settings.tile_size
+				cube.depth = ProceduralHelper.map_generator_settings.tile_size
 				cube.transform.origin = Vector3(
-					(object.position.x + x) * __debug_map_gen_settings.tile_size,
+					(object.position.x + x) * ProceduralHelper.map_generator_settings.tile_size,
 					1,
-					(object.position.y + y) * __debug_map_gen_settings.tile_size)
+					(object.position.y + y) * ProceduralHelper.map_generator_settings.tile_size)
 				
 				cube.material = __debug_object_material
 				__debug_root_node.add_child(cube)
 
-func clone_object_info(var input: ObjectInfo) -> ObjectInfo:
+func clone_object_info(input: ObjectInfo) -> ObjectInfo:
 	return ObjectInfo.new(input.name, input.size)

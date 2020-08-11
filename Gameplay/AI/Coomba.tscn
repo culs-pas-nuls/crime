@@ -3,22 +3,20 @@
 [ext_resource path="res://Assets/Roomba/coomba.dae" type="PackedScene" id=1]
 [ext_resource path="res://Gameplay/AI/Coomba.gd" type="Script" id=2]
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="CylinderShape" id=1]
 
 [node name="Coomba" type="RigidBody"]
 collision_layer = 7
 collision_mask = 6
-mass = 70.0
+mass = 0.102041
 contacts_reported = 1
 contact_monitor = true
-axis_lock_linear_y = true
 axis_lock_angular_x = true
-axis_lock_angular_y = true
 axis_lock_angular_z = true
 script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 0.45, 0, 0, 0, 1, 0, 0, 0, 0.45, 0, 1, 0 )
+transform = Transform( 0.4, 0, 0, 0, 0.16, 0, 0, 0, 0.4, 0, 0.154067, 0 )
 shape = SubResource( 1 )
 
 [node name="coomba" parent="." instance=ExtResource( 1 )]
