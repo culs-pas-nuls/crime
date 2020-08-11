@@ -39,6 +39,12 @@ func generate_new_objects(debug_root_node: Node = null) -> void:
 	_settings = ProceduralHelper.object_generator_settings
 	_map_gen_data_set = ProceduralHelper.map_generator.data_set
 	data_set = ObjectGeneratorDataSet.new()
+
+	# Matrix initialization
+	for y in range(ProceduralHelper.map_generator_settings.grid_size.y):
+		data_set.matrix.push_back([])
+		for x in range(ProceduralHelper.map_generator_settings.grid_size.x):
+			data_set.matrix[y].push_back(0)
 	
 	# We fill the rooms with random objects
 	for room_info in _map_gen_data_set.rooms:
@@ -195,10 +201,11 @@ func generate_new_objects(debug_root_node: Node = null) -> void:
 				
 			data_set.objects.push_back(obj_info)
 			
-			# Update the area
+			# Update the area and the matrix
 			for y in obj_info.size.y:
 				for x in obj_info.size.x:
 					area[local_pos.y + y][local_pos.x + x] = 0
+					data_set.matrix[obj_info.position.y + y][obj_info.position.x + x] = 1
 			
 	if __debug_root_node != null:
 		__debug_render_objects(data_set.objects)

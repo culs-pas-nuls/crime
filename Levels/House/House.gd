@@ -38,4 +38,3 @@ func __placeAi(root: Node, map: Array) -> void:
 					var ai = coombaScene.duplicate()
 					ai.transform.origin = Vector3(x, 0, y)
 					root.add_child(ai)
-					return
