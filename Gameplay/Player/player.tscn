@@ -17,6 +17,7 @@ bg_color = Color( 0.384314, 0.384314, 0.423529, 1 )
 "Players",
 ]]
 collision_layer = 2
+mass = 70.0
 axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_y = true

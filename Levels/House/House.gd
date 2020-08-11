@@ -3,6 +3,7 @@ extends Node
 # Main script for the house level.
 
 var playerScene = preload("res://Gameplay/Player/player.tscn").instance()
+var coombaScene = preload("res://Gameplay/AI/Coomba.tscn").instance()
 
 
 func _ready():
@@ -18,5 +19,22 @@ func generateLevel() -> void:
 	var spawnPoint = mapAssetPlacer.placeAssets(self, map_data_set.matrix)
 	var objects: Array = obj_generator.generate_new_objects(map_data_set)
 	propsAssetPlacer.placeProps(self, objects)
+	__placeAi(self, map_data_set.matrix)
 	playerScene.transform.origin = spawnPoint
 	add_child(playerScene)
+
+
+func __placeAi(root: Node, map: Array) -> void:
+	var rnd = RandomNumberGenerator.new()
+	rnd.randomize()
+	for y in range(map.size()):
+		var sub = map[y]
+		for x in range(sub.size()):
+			var tileInfo = sub[x]
+			if \
+				tileInfo != null and \
+				tileInfo.tile_type == TileType.Floor and \
+				rnd.randf() > .95:
+					var ai = coombaScene.duplicate()
+					ai.transform.origin = Vector3(x, 0, y)
+					root.add_child(ai)
