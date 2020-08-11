@@ -12,14 +12,17 @@ func _ready():
 
 func generateLevel() -> void:
 	var mapAssetPlacer = MapAssetPlacer.new()
-	var mapGenerator = MapGenerator.new()
-	var obj_generator = ObjectGenerator.new()
 	var propsAssetPlacer = PropsAssetPlacer.new()
-	var map_data_set = mapGenerator.generate_new_map()
-	var spawnPoint = mapAssetPlacer.placeAssets(self, map_data_set.matrix)
-	var objects: Array = obj_generator.generate_new_objects(map_data_set)
-	propsAssetPlacer.placeProps(self, objects)
-	__placeAi(self, map_data_set.matrix)
+	
+	ProceduralHelper.map_generator.generate_new_map()
+	var spawnPoint = mapAssetPlacer.placeAssets(self, ProceduralHelper.map_generator.data_set.matrix)
+	
+	ProceduralHelper.object_generator.generate_new_objects()
+	propsAssetPlacer.placeProps(self, ProceduralHelper.object_generator.data_set.objects)
+	
+	ProceduralHelper.path_finder.reset()
+	
+	__placeAi(self, ProceduralHelper.map_generator.data_set.matrix)
 	playerScene.transform.origin = spawnPoint
 	add_child(playerScene)
 
@@ -31,10 +34,8 @@ func __placeAi(root: Node, map: Array) -> void:
 		var sub = map[y]
 		for x in range(sub.size()):
 			var tileInfo = sub[x]
-			if \
-				tileInfo != null and \
-				tileInfo.tile_type == TileType.Floor and \
-				rnd.randf() > .95:
+			if ProceduralHelper.is_tile_walkable(Vector2(x, y)) and rnd.randf() > .95:
 					var ai = coombaScene.duplicate()
 					ai.transform.origin = Vector3(x, 0, y)
 					root.add_child(ai)
+					return
