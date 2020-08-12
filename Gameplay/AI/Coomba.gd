@@ -61,7 +61,8 @@ func _integrate_forces(state):
 		linear_velocity = linear_velocity.normalized() * SPEED
 	
 	# Override the physics rotation
-	look_at(transform.origin + _dir, Vector3.UP)	
+	if _dir != Vector3.ZERO:
+		look_at(transform.origin + _dir, Vector3.UP)	
 	
 	
 func _physics_process(delta):

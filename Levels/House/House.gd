@@ -3,6 +3,7 @@ extends Node
 # Main script for the house level.
 
 var playerScene = preload("res://Gameplay/Player/player.tscn").instance()
+var doomPlayerScene = preload("res://Gameplay/DoomPlayer/DoomPlayer.tscn").instance()
 var coombaScene = preload("res://Gameplay/AI/Coomba.tscn").instance()
 
 
@@ -23,8 +24,8 @@ func generateLevel() -> void:
 	ProceduralHelper.path_finder.reset()
 	
 	__placeAi(self, ProceduralHelper.map_generator.data_set.matrix)
-	playerScene.transform.origin = spawnPoint
-	add_child(playerScene)
+	doomPlayerScene.transform.origin = spawnPoint
+	add_child(doomPlayerScene)
 
 
 func __placeAi(root: Node, map: Array) -> void:
