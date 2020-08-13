@@ -1,9 +1,19 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Gameplay/DoomPlayer/DoomPlayer.gd" type="Script" id=1]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
+
+[sub_resource type="Environment" id=8]
+background_mode = 1
+ambient_light_color = Color( 1, 1, 1, 1 )
+ambient_light_energy = 0.02
+fog_enabled = true
+fog_color = Color( 0, 0, 0, 1 )
+fog_sun_color = Color( 0, 0, 0, 1 )
+fog_depth_begin = 5.0
+fog_depth_end = 15.0
 
 [sub_resource type="Animation" id=2]
 resource_name = "walk_cam"
@@ -41,6 +51,25 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 1, 0 ), Vector3( 0.05, 1.05, 0 ), Vector3( 0, 1, 0 ), Vector3( -0.05, 1.05, 0 ) ]
 }
 
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "walk_cam"
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "idle_cam"
+
+[sub_resource type="AnimationNodeBlend2" id=6]
+
+[sub_resource type="AnimationNodeBlendTree" id=7]
+graph_offset = Vector2( -251, -18 )
+nodes/Animation/node = SubResource( 5 )
+nodes/Animation/position = Vector2( -180, 40 )
+"nodes/Animation 2/node" = SubResource( 4 )
+"nodes/Animation 2/position" = Vector2( -180, 220 )
+nodes/Blend2/node = SubResource( 6 )
+nodes/Blend2/position = Vector2( 60, 100 )
+nodes/output/position = Vector2( 340, 140 )
+node_connections = [ "output", 0, "Blend2", "Blend2", 0, "Animation", "Blend2", 1, "Animation 2" ]
+
 [node name="RigidBody" type="RigidBody"]
 mass = 7.14286
 can_sleep = false
@@ -50,15 +79,32 @@ axis_lock_angular_z = true
 linear_damp = 0.998
 script = ExtResource( 1 )
 linked_camera_path = NodePath("Camera")
-anim_player_path = NodePath("AnimationPlayer")
+anim_tree_path = NodePath("AnimationTree")
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.5, 0 )
 shape = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 1.1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+environment = SubResource( 8 )
+far = 15.0
+
+[node name="SpotLight" type="SpotLight" parent="Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.328797, -0.386136 )
+light_energy = 2.0
+shadow_enabled = true
+spot_range = 10.0
+spot_attenuation = 1.51572
+spot_angle = 46.3
+spot_angle_attenuation = 0.812252
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/idle_cam = SubResource( 2 )
 anims/walk_cam = SubResource( 3 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 7 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/Blend2/blend_amount = 0.0

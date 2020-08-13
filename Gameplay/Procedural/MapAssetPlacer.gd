@@ -47,9 +47,14 @@ func placeAssets(root: Node, map: Array) -> Vector3:
 					firstTilePosition = position
 			else:
 				continue
-			var generated: MeshInstance = block.duplicate()
-			generated.transform.origin = position
-			if tileInfo.tile_type == TileType.Floor:
-				generated.rotate(__UP, __HALF_PI * rnd.randi_range(0, 3))
-			root.add_child(generated)
+			for offset_y in range(0, 2):
+				var generated: MeshInstance = block.duplicate()
+				generated.transform.origin = position
+				if tileInfo.tile_type == TileType.Floor and offset_y > 0:
+					generated.transform.origin.y = (offset_y + 1) * 3
+				else:
+					generated.transform.origin.y = offset_y * 3
+				if tileInfo.tile_type == TileType.Floor:
+					generated.rotate(__UP, __HALF_PI * rnd.randi_range(0, 3))
+				root.add_child(generated)
 	return firstTilePosition
