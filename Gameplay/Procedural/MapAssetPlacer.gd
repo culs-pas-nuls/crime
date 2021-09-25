@@ -52,6 +52,16 @@ func placeAssets(root: Node, map: Array) -> Vector3:
 				generated.transform.origin = position
 				if tileInfo.tile_type == TileType.Floor and offset_y > 0:
 					generated.transform.origin.y = (offset_y + 1) * 3
+					if tileInfo.has_light:
+						var light: SpotLight
+						light = SpotLight.new()
+						light.shadow_enabled = false
+						light.light_color = Color(rnd.randf_range(0.5, 1), rnd.randf_range(0.5, 1), rnd.randf_range(0.5, 1))
+						light.spot_angle = 90
+						light.light_energy = 1.5
+						generated.add_child(light)
+						light.rotate_x(deg2rad(-90))
+						light.transform.origin.y = -1.5
 				else:
 					generated.transform.origin.y = offset_y * 3
 				if tileInfo.tile_type == TileType.Floor:

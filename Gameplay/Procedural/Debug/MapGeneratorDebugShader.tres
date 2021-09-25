@@ -5,6 +5,8 @@ uniform_name = "DiffuseColor"
 
 [resource]
 code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
 uniform vec4 DiffuseColor : hint_color;
 
 
@@ -29,6 +31,7 @@ void light() {
 
 }
 "
+graph_offset = Vector2( -346, -104 )
 nodes/fragment/2/node = SubResource( 1 )
-nodes/fragment/2/position = Vector2( 20, 120 )
+nodes/fragment/2/position = Vector2( -100, 80 )
 nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 2, 0, 0, 0 )

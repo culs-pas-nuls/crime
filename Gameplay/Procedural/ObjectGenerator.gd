@@ -206,6 +206,7 @@ func generate_new_objects(debug_root_node: Node = null) -> void:
 				for x in obj_info.size.x:
 					area[local_pos.y + y][local_pos.x + x] = 0
 					data_set.matrix[obj_info.position.y + y][obj_info.position.x + x] = 1
+					matrix[obj_info.position.y + y][obj_info.position.x + x].has_light = _rnd.randf() > 0.8
 			
 	if __debug_root_node != null:
 		__debug_render_objects(data_set.objects)

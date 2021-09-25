@@ -16,9 +16,9 @@ func generateLevel() -> void:
 	var propsAssetPlacer = PropsAssetPlacer.new()
 	
 	ProceduralHelper.map_generator.generate_new_map()
-	var spawnPoint = mapAssetPlacer.placeAssets(self, ProceduralHelper.map_generator.data_set.matrix)
-	
 	ProceduralHelper.object_generator.generate_new_objects()
+	
+	var spawnPoint = mapAssetPlacer.placeAssets(self, ProceduralHelper.map_generator.data_set.matrix)
 	propsAssetPlacer.placeProps(self, ProceduralHelper.object_generator.data_set.objects)
 	
 	ProceduralHelper.path_finder.reset()
@@ -30,7 +30,9 @@ func generateLevel() -> void:
 
 func __placeAi(root: Node, map: Array) -> void:
 	var rnd = RandomNumberGenerator.new()
+	var ia_count: int
 	rnd.randomize()
+	ia_count = 0
 	for y in range(map.size()):
 		var sub = map[y]
 		for x in range(sub.size()):
@@ -39,3 +41,7 @@ func __placeAi(root: Node, map: Array) -> void:
 					var ai = coombaScene.duplicate()
 					ai.transform.origin = Vector3(x, 0, y)
 					root.add_child(ai)
+					ia_count += 1
+					
+					if ia_count >= 50:
+						return

@@ -140,6 +140,9 @@ func _generate() -> void:
 		room_info.type = RoomType.allowed_values[_rnd.randi_range(0, RoomType.allowed_values.size() - 1)]
 		data_set.rooms.push_back(room_info)
 		
+		var light_count: int
+		light_count = 0
+		
 		# The room is now projected into the matrix
 		for y in room_info.size.y:
 			for x in room_info.size.x:
@@ -158,6 +161,9 @@ func _generate() -> void:
 				tile_info.tile_type = TileType.Wall if is_wall else TileType.Floor
 				tile_info.room_type = room_info.type
 				data_set.matrix[room_info.position.y + y][room_info.position.x + x] = tile_info
+				
+				if tile_info.has_light:
+					light_count += 1
 				
 	# We create room connections	
 	_connect_rooms()
@@ -273,6 +279,7 @@ func _connect_rooms() -> void:
 				
 				tile_info = TileInfo.new()
 				tile_info.room_id = -1
+				tile_info.has_light = offset == 0 and not is_hallway_wall and _rnd.randf() > 0.80
 				tile_info.tile_type = TileType.Wall if is_hallway_wall else TileType.Floor
 				tile_info.room_type = RoomType.Hallway
 				data_set.matrix[from_pos.y + offset][x] = tile_info
@@ -304,6 +311,7 @@ func _connect_rooms() -> void:
 				
 				tile_info = TileInfo.new()
 				tile_info.room_id = -1
+				tile_info.has_light = offset == 0 and not is_hallway_wall and _rnd.randf() > 0.80
 				tile_info.tile_type = TileType.Wall if is_hallway_wall else TileType.Floor
 				tile_info.room_type = RoomType.Hallway
 				data_set.matrix[y][last_x_pos + offset] = tile_info

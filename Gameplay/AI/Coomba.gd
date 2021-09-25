@@ -36,7 +36,7 @@ func __setPurpose():
 	_path = ProceduralHelper.path_finder.get_random_path_from_position(matrix_pos)
 	
 	# No path found...
-	if _path == null:
+	if _path.size() == 0:
 		# Fallback with a shitty path
 		_path = [matrix_pos]
 	

@@ -5,7 +5,7 @@
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
 
-[sub_resource type="Environment" id=8]
+[sub_resource type="Environment" id=2]
 background_mode = 1
 ambient_light_color = Color( 1, 1, 1, 1 )
 ambient_light_energy = 0.02
@@ -15,8 +15,7 @@ fog_sun_color = Color( 0, 0, 0, 1 )
 fog_depth_begin = 5.0
 fog_depth_end = 15.0
 
-[sub_resource type="Animation" id=2]
-resource_name = "walk_cam"
+[sub_resource type="Animation" id=3]
 length = 0.581
 loop = true
 step = 0.01
@@ -33,8 +32,7 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "walk_cam"
+[sub_resource type="Animation" id=4]
 length = 0.953
 loop = true
 step = 0.01
@@ -51,21 +49,21 @@ tracks/0/keys = {
 "values": [ Vector3( 0, 1, 0 ), Vector3( 0.05, 1.05, 0 ), Vector3( 0, 1, 0 ), Vector3( -0.05, 1.05, 0 ) ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=4]
+[sub_resource type="AnimationNodeAnimation" id=5]
 animation = "walk_cam"
 
-[sub_resource type="AnimationNodeAnimation" id=5]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "idle_cam"
 
-[sub_resource type="AnimationNodeBlend2" id=6]
+[sub_resource type="AnimationNodeBlend2" id=7]
 
-[sub_resource type="AnimationNodeBlendTree" id=7]
+[sub_resource type="AnimationNodeBlendTree" id=8]
 graph_offset = Vector2( -251, -18 )
-nodes/Animation/node = SubResource( 5 )
+nodes/Animation/node = SubResource( 6 )
 nodes/Animation/position = Vector2( -180, 40 )
-"nodes/Animation 2/node" = SubResource( 4 )
+"nodes/Animation 2/node" = SubResource( 5 )
 "nodes/Animation 2/position" = Vector2( -180, 220 )
-nodes/Blend2/node = SubResource( 6 )
+nodes/Blend2/node = SubResource( 7 )
 nodes/Blend2/position = Vector2( 60, 100 )
 nodes/output/position = Vector2( 340, 140 )
 node_connections = [ "output", 0, "Blend2", "Blend2", 0, "Animation", "Blend2", 1, "Animation 2" ]
@@ -87,7 +85,7 @@ shape = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-environment = SubResource( 8 )
+environment = SubResource( 2 )
 far = 15.0
 
 [node name="SpotLight" type="SpotLight" parent="Camera"]
@@ -100,11 +98,11 @@ spot_angle = 46.3
 spot_angle_attenuation = 0.812252
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/idle_cam = SubResource( 2 )
-anims/walk_cam = SubResource( 3 )
+anims/idle_cam = SubResource( 3 )
+anims/walk_cam = SubResource( 4 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 7 )
+tree_root = SubResource( 8 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/Blend2/blend_amount = 0.0

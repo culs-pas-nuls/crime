@@ -35,4 +35,5 @@ text = "Play"
 __meta__ = {
 "_edit_lock_": true
 }
+
 [connection signal="pressed" from="Menu2d/PlayButton" to="." method="_on_PlayButton_pressed"]
